@@ -2,21 +2,23 @@
 import pytest
 import subprocess
 
-p = subprocess.Popen("scatnet inventory --datapath ./data/YH.DC06..BH{channel}_{tag}.sac", stdout=subprocess.PIPE, shell=True)
-(output, err) = p.communicate()
-print(output)
+def test_dataset():
 
-p = subprocess.Popen("scatnet transform", stdout=subprocess.PIPE, shell=True)
-(output, err) = p.communicate()
-print(output)
-
-p = subprocess.Popen("scatnet features", stdout=subprocess.PIPE, shell=True)
-(output, err) = p.communicate()
-print(output)
-
-p = subprocess.Popen("scatnet linkage", stdout=subprocess.PIPE, shell=True)
-(output, err) = p.communicate()
-print(output)
+    p = subprocess.Popen("scatnet inventory --datapath ./data/YH.DC06..BH{channel}_{tag}.sac", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    print(output)
+    
+    p = subprocess.Popen("scatnet transform", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    print(output)
+    
+    p = subprocess.Popen("scatnet features", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    print(output)
+    
+    p = subprocess.Popen("scatnet linkage", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    print(output)
 
 # def test_covariance():
 
