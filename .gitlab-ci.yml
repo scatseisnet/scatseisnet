@@ -1,0 +1,109 @@
+stages:
+  - static analysis
+  - test
+  - deploy to PyPI
+  - deploy to Conda
+  - deploy
+
+python-black:
+  image: python:3.7-slim
+  stage: static analysis
+  script:
+    - pip install black
+    - black --check .
+  only:
+    - develop
+  allow_failure: true
+
+py37-test:
+  image: python:3.7-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc
+    - pip install pytest-cov codecov numpy
+    - pip install obspy
+    - python -m pytest --cov=./
+    - codecov --token=$CODECOV_TOKEN
+  except:
+    - tags
+
+py36-test:
+  image: python:3.6-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc
+    - pip install pytest-cov codecov numpy
+    - pip install obspy
+    - python -m pytest --cov=./
+  except:
+    - tags
+
+py38-test:
+  image: python:3.8-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc
+    - pip install pytest-cov codecov numpy
+    - pip install obspy
+    - python -m pytest --cov=./
+  except:
+    - tags
+
+py39-test:
+  image: python:3.9-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc
+    - pip install pytest-cov codecov numpy
+    - pip install obspy
+    - python -m pytest --cov=./
+  except:
+    - tags
+
+# deploy_to_PyPI:
+  # image: python:3.7-slim
+  # stage: deploy to PyPI
+  # variables:
+    # TWINE_USERNAME: $PYPI_USERNAME
+    # TWINE_PASSWORD: $PYPI_PASSWORD
+  # script:
+    # - pip install twine
+    # - python setup.py sdist bdist_wheel
+    # - twine upload dist/*
+  # only:
+    # - tags
+
+# deploy_to_Conda:
+  # image: continuumio/miniconda3:4.8.2
+  # stage: deploy to Conda
+  # variables:
+    # TWINE_USERNAME: $PYPI_USERNAME
+    # TWINE_PASSWORD: $PYPI_PASSWORD
+  # script:
+    # - sed -i "s/covseisnet_version/$CI_COMMIT_TAG/g" conda-config/meta.yaml
+    # - conda install conda-build anaconda-client
+    # - conda config --set anaconda_upload yes
+    # - conda config --append channels conda-forge
+    # - conda-build --token $ANACONDA_PASSWORD conda-config
+  # only:
+    # - tags
+
+# pages:
+  # image: python:3.7-slim
+  # stage: deploy
+  # script:
+    # - apt update
+    # - apt install -y gcc
+    # - pip install sphinx sphinx_gallery recommonmark sphinx_rtd_theme numpy scipy
+    # - pip install obspy
+    # - sphinx-build -b html ./docs/source public
+  # artifacts:
+    # paths:
+      # - public
+  # only:
+    # - master
+    # - develop

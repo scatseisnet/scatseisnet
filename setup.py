@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="scatseisnet",
-    version="0.1.0",
+    version="0.1.3",
     packages=find_packages(),
     python_requires=">=3.6, <4",
     install_requires=["obspy", "parse", "nmmn", "click >= 8"],
