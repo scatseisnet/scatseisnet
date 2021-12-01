@@ -21,8 +21,9 @@ py37-test:
   script:
     - apt update
     - apt install -y gcc
-    - pip install pytest-cov codecov numpy
+    - pip install pytest-cov codecov numpy parse nmmn click fastcluster
     - pip install obspy
+    - conda install -c anaconda cupy
     - pip install -e .
     - python -m pytest --cov=./
     # - codecov --token=$CODECOV_TOKEN
