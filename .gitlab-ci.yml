@@ -19,10 +19,8 @@ py37-test:
   image: continuumio/miniconda3:4.7.12 #python 3.7.4
   stage: test
   script:
-    - apt update
-    - apt install -y gcc
-    - pip install pytest-cov codecov numpy parse nmmn click fastcluster
-    - pip install obspy
+    - pip install nmmn
+    - conda install -c conda-forge pytest-cov codecov numpy obspy parse click fastcluster
     - conda install -c anaconda cupy
     - pip install -e .
     - python -m pytest --cov=./
