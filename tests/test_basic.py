@@ -1,81 +1,37 @@
-# import scatseisnet as ssn
-import pytest
 import subprocess
+#minimum python 3.7+
 
-def test_dataset():
+def test_inventory():    
+    p = subprocess.run(["scatseisnet", "inventory", "--datapath", "./tests/data/YH.DC06..BH{channel}_{tag}.sac"], capture_output=True, text=True)
+    stdout = p.stdout
+    stderr = p.stderr
 
-    p = subprocess.Popen("scatnet inventory --datapath ./data/YH.DC06..BH{channel}_{tag}.sac", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    print(output)
-    
-    p = subprocess.Popen("scatnet transform", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    print(output)
-    
-    p = subprocess.Popen("scatnet features", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    print(output)
-    
-    p = subprocess.Popen("scatnet linkage", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    print(output)
-
-# def test_covariance():
-
-    ##read ObsPy's example stream
-    # stream = obspy.read()
-    # window_duration_sec = 1.0
-    # average = 5
-    # times, frequencies, covariances = csn.covariancematrix.calculate(
-        # stream, window_duration_sec, average
-    # )
-
-    # assert covariances.all() != None
-
-    ##test spectral width
-    # spectral_width = covariances.coherence(kind="spectral_width")
-    # assert spectral_width.all() != None
-
-    ##test coherence
-    # coherence = covariances.coherence(kind="coherence")
-    # assert coherence.all() != None
-
-    # with pytest.raises(ValueError):
-        # covariances.coherence(kind="none")
-
-    ##test eigenvectors
-    # eigenvectors = covariances.eigenvectors()
-    # assert eigenvectors.all() != None
-
-    ##test upper triangular
-    # triu = covariances.triu()
-    # assert triu.all() != None
+    assert "saved" in stdout
+    assert "Error" not in stderr
 
 
-# def test_arraystream():
+def test_transform():
+    p = subprocess.run(["scatseisnet", "transform"], capture_output=True, text=True)
+    stdout = p.stdout
+    stderr = p.stderr
 
-    # stream = csn.arraystream.read()
+    assert "Saved" in stdout
+    assert "Error" not in stderr
 
-    ##test cut
-    # stream.cut(
-        # starttime=stream[0].stats.starttime + 1, endtime=stream[0].stats.endtime - 1
-    # )
 
-    ##test synchronize
-    # stream.synchronize()
+def test_features():
+    p = subprocess.run(["scatseisnet", "features"], capture_output=True, text=True)
+    stdout = p.stdout
+    stderr = p.stderr
 
-    ##test all preprocessing methods
-    # stream.preprocess()  # default preprocessing
-    # stream.preprocess(domain="spectral")  # default method for spectral whitening
-    # stream.preprocess(domain="spectral", method="onebit")
-    # stream.preprocess(domain="spectral", method="smooth")
-    # stream.preprocess(
-        # domain="spectral", method="smooth", smooth_length=33, smooth_order=2
-    # )
-    # stream.preprocess(domain="temporal")  # default method for temporal normalization
-    # stream.preprocess(domain="temporal", method="onebit")
-    # stream.preprocess(domain="temporal", method="smooth")
-    # stream.preprocess(domain="temporal", method="mad")
+    assert "Saved" in stdout
+    assert "Error" not in stderr
 
-    ##test times
-    # stream.times()
+
+def test_linkage():
+    p = subprocess.run(["scatseisnet", "linkage"], capture_output=True, text=True)
+    stdout = p.stdout
+    stderr = p.stderr
+
+    assert "Saved" in stdout
+    assert "Error" not in stderr

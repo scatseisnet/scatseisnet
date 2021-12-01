@@ -23,46 +23,47 @@ py37-test:
     - apt install -y gcc
     - pip install pytest-cov codecov numpy
     - pip install obspy
+    - pip install -e .
     - python -m pytest --cov=./
-    - codecov --token=$CODECOV_TOKEN
+    # - codecov --token=$CODECOV_TOKEN
   except:
     - tags
 
-py36-test:
-  image: python:3.6-slim
-  stage: test
-  script:
-    - apt update
-    - apt install -y gcc
-    - pip install pytest-cov codecov numpy
-    - pip install obspy
-    - python -m pytest --cov=./
-  except:
-    - tags
+# py36-test:
+  # image: python:3.6-slim
+  # stage: test
+  # script:
+    # - apt update
+    # - apt install -y gcc
+    # - pip install pytest-cov codecov numpy
+    # - pip install obspy
+    # - python -m pytest --cov=./
+  # except:
+    # - tags
 
-py38-test:
-  image: python:3.8-slim
-  stage: test
-  script:
-    - apt update
-    - apt install -y gcc
-    - pip install pytest-cov codecov numpy
-    - pip install obspy
-    - python -m pytest --cov=./
-  except:
-    - tags
+# py38-test:
+  # image: python:3.8-slim
+  # stage: test
+  # script:
+    # - apt update
+    # - apt install -y gcc
+    # - pip install pytest-cov codecov numpy
+    # - pip install obspy
+    # - python -m pytest --cov=./
+  # except:
+    # - tags
 
-py39-test:
-  image: python:3.9-slim
-  stage: test
-  script:
-    - apt update
-    - apt install -y gcc
-    - pip install pytest-cov codecov numpy
-    - pip install obspy
-    - python -m pytest --cov=./
-  except:
-    - tags
+# py39-test:
+  # image: python:3.9-slim
+  # stage: test
+  # script:
+    # - apt update
+    # - apt install -y gcc
+    # - pip install pytest-cov codecov numpy
+    # - pip install obspy
+    # - python -m pytest --cov=./
+  # except:
+    # - tags
 
 # deploy_to_PyPI:
   # image: python:3.7-slim
