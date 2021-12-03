@@ -85,7 +85,10 @@ class Network:
             for index, scattering in enumerate(scatterings):
                 features[index].append(scattering)
 
-        return [cp.array(feature).get() for feature in features]
+        if cp.__name__ == "numpy": # if using numpy instead of cupy
+            return [cp.array(feature) for feature in features]
+        else:
+            return [cp.array(feature).get() for feature in features]
 
     @property
     def depth(self):
