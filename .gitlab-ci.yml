@@ -96,6 +96,21 @@ deploy_to_PyPI_cpu_version:
   only:
     - tags
 
+deploy_to_PyPI_gpu_version:
+  image: python:3.7-slim
+  stage: deploy to PyPI
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD
+  script:
+    - pip install twine
+    - find "./setup.py" -type f -exec sed -i 's/name="scatseisnet"/name="scatseisnet-gpu"/g' {} \; #rename package for gpu-only version
+    - python setup.py sdist bdist_wheel
+    # - twine upload dist/* #upload to real repo
+    - twine upload --verbose --repository testpypi dist/* #upload to test repo
+  only:
+    - tags
+
 # deploy_to_Conda:
   # image: continuumio/miniconda3:4.8.2
   # stage: deploy to Conda
