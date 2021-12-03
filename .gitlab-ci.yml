@@ -82,19 +82,19 @@ py37-test-pip:
     # - tags
 
 # deploy_to_PyPI_cpu_version:
-  # image: python:3.7-slim
-  # stage: deploy to PyPI
-  # variables:
-    # TWINE_USERNAME: $PYPI_USERNAME
-    # TWINE_PASSWORD: $PYPI_PASSWORD
-  # script:
-    # - pip install twine
-    # batch command to replace all mention of cupy with numpy
-    # - grep -rli 'import cupy' * | xargs -i@ sed -i 's/cupy/numpy/g' @
-    # - python setup.py sdist bdist_wheel
-    # - twine upload dist/*
-  # only:
-    # - tags
+  image: python:3.7-slim
+  stage: deploy to PyPI
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD
+  script:
+    - pip install twine
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
+    - python setup.py sdist bdist_wheel
+    # - twine upload dist/* #upload to real repo
+    - twine upload --repository testpypi dist/* #upload to test repo
+  only:
+    - tags
 
 # deploy_to_Conda:
   # image: continuumio/miniconda3:4.8.2
