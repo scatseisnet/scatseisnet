@@ -81,7 +81,7 @@ py37-test-pip:
   # except:
     # - tags
 
-# deploy_to_PyPI_cpu_version:
+deploy_to_PyPI_cpu_version:
   image: python:3.7-slim
   stage: deploy to PyPI
   variables:
