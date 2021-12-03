@@ -15,18 +15,35 @@ python-black:
     - develop
   allow_failure: true
 
-py37-test:
-  image: continuumio/miniconda3:4.7.12 #python 3.7.4
+# py37-test-conda:
+  # image: continuumio/miniconda3:4.7.12 #python 3.7.4
+  # stage: test
+  # script:
+    # - pip install nmmn
+    # - conda install -c conda-forge pytest-cov codecov numpy obspy parse click fastcluster astropy
+    # - conda install -c anaconda pandas
+    # - grep -rli 'import cupy' * | xargs -i@ sed -i 's/cupy/numpy/g' @ #replace cupy with numpy because no gpu on CI runner
+    # - pip install -e .
+    # - python -m pytest --cov=./
+    # - codecov --token=$CODECOV_TOKEN
+  # except:
+    # - tags
+
+py37-test-pip:
+  image: python:3.7-slim
   stage: test
   script:
-    - pip install nmmn
-    - conda install -c conda-forge pytest-cov codecov numpy obspy parse click fastcluster
-    - conda install -c anaconda cupy
+    - apt update
+    - apt install -y gcc
+    - pip install nmmn pytest-cov codecov numpy parse click fastcluster astropy pandas tqdm seaborn sklearn
+    - pip install obspy
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
     - pip install -e .
     - python -m pytest --cov=./
     # - codecov --token=$CODECOV_TOKEN
   except:
     - tags
+
 
 # py36-test:
   # image: python:3.6-slim
@@ -64,7 +81,7 @@ py37-test:
   # except:
     # - tags
 
-# deploy_to_PyPI:
+# deploy_to_PyPI_cpu_version:
   # image: python:3.7-slim
   # stage: deploy to PyPI
   # variables:
@@ -72,6 +89,8 @@ py37-test:
     # TWINE_PASSWORD: $PYPI_PASSWORD
   # script:
     # - pip install twine
+    # batch command to replace all mention of cupy with numpy
+    # - grep -rli 'import cupy' * | xargs -i@ sed -i 's/cupy/numpy/g' @
     # - python setup.py sdist bdist_wheel
     # - twine upload dist/*
   # only:
