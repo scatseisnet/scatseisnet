@@ -89,10 +89,10 @@ deploy_to_PyPI_cpu_version:
     TWINE_PASSWORD: $PYPI_PASSWORD
   script:
     - pip install twine
-    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy for cpu-only version
     - python setup.py sdist bdist_wheel
     # - twine upload dist/* #upload to real repo
-    - twine upload --repository testpypi dist/* #upload to test repo
+    - twine upload --verbose --repository testpypi dist/* #upload to test repo
   only:
     - tags
 
