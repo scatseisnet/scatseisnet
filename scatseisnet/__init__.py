@@ -18,3 +18,7 @@ from . import signal
 from . import hierarchy
 from .io import parse
 from .network import Network
+
+from pkg_resources import get_distribution
+
+__version__ = get_distribution('scatseisnet').version

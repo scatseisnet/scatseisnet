@@ -34,13 +34,13 @@ py37-test-pip:
   stage: test
   script:
     - apt update
-    - apt install -y gcc
-    - pip install nmmn pytest-cov codecov numpy parse click fastcluster astropy pandas tqdm seaborn sklearn
-    - pip install obspy
+    - apt install -y gcc #required for installing obspy
+    # - pip install nmmn pytest-cov codecov numpy parse click fastcluster astropy pandas tqdm seaborn sklearn
+    # - pip install obspy
     - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
     - pip install -e .
     - python -m pytest --cov=./
-    # - codecov --token=$CODECOV_TOKEN
+    - codecov --token=$CODECOV_TOKEN
   except:
     - tags
 
@@ -91,7 +91,7 @@ deploy_to_PyPI_cpu_version:
     - pip install twine
     - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy for cpu-only version
     - python setup.py sdist bdist_wheel
-    # - twine upload dist/* #upload to real repo
+    # - twine upload --verbose dist/* #upload to real repo
     - twine upload --verbose --repository testpypi dist/* #upload to test repo
   only:
     - tags
@@ -106,7 +106,7 @@ deploy_to_PyPI_gpu_version:
     - pip install twine
     - find "./setup.py" -type f -exec sed -i 's/name="scatseisnet"/name="scatseisnet-gpu"/g' {} \; #rename package for gpu-only version
     - python setup.py sdist bdist_wheel
-    # - twine upload dist/* #upload to real repo
+    # - twine upload --verbose dist/* #upload to real repo
     - twine upload --verbose --repository testpypi dist/* #upload to test repo
   only:
     - tags
