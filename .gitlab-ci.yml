@@ -91,8 +91,8 @@ deploy_to_PyPI_cpu_version:
     - pip install twine
     - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy for cpu-only version
     - python setup.py sdist bdist_wheel
-    # - twine upload --verbose dist/* #upload to real repo
-    - twine upload --verbose --repository testpypi dist/* #upload to test repo
+    - twine upload --verbose dist/* #upload to real repo
+    # - twine upload --verbose --repository testpypi dist/* #upload to test repo
   only:
     - tags
 
@@ -106,8 +106,8 @@ deploy_to_PyPI_gpu_version:
     - pip install twine
     - find "./setup.py" -type f -exec sed -i 's/name="scatseisnet"/name="scatseisnet-gpu"/g' {} \; #rename package for gpu-only version
     - python setup.py sdist bdist_wheel
-    # - twine upload --verbose dist/* #upload to real repo
-    - twine upload --verbose --repository testpypi dist/* #upload to test repo
+    - twine upload --verbose dist/* #upload to real repo
+    # - twine upload --verbose --repository testpypi dist/* #upload to test repo
   only:
     - tags
 
