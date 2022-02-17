@@ -86,7 +86,7 @@ deploy_to_PyPI_cpu_version:
   stage: deploy to PyPI
   variables:
     TWINE_USERNAME: $PYPI_USERNAME
-    TWINE_PASSWORD: $PYPI_PASSWORD
+    TWINE_PASSWORD: $PYPI_PASSWORD_CPU
   script:
     - pip install twine
     - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy for cpu-only version
@@ -101,7 +101,7 @@ deploy_to_PyPI_gpu_version:
   stage: deploy to PyPI
   variables:
     TWINE_USERNAME: $PYPI_USERNAME
-    TWINE_PASSWORD: $PYPI_PASSWORD
+    TWINE_PASSWORD: $PYPI_PASSWORD_GPU
   script:
     - pip install twine
     - find "./setup.py" -type f -exec sed -i 's/name="scatseisnet"/name="scatseisnet-gpu"/g' {} \; #rename package for gpu-only version
