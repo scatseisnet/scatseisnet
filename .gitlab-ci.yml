@@ -37,6 +37,7 @@ py37-test-pip:
     - apt install -y gcc #required for installing obspy
     # - pip install nmmn pytest-cov codecov numpy parse click fastcluster astropy pandas tqdm seaborn sklearn
     # - pip install obspy
+    - pip install pytest-cov codecov
     - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
     - pip install -e .
     - python -m pytest --cov=./
