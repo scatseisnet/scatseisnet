@@ -56,10 +56,10 @@ def show_waveforms(
     # _, paths, starts, *_ = inventory.read(file_inventory)
     # starts = [mdates.datestr2num(t) for t in starts]
     # starts = get_all_subkeys(database, "date_start") #does not work
-    starts = [database["starttime"]]
+    starts = database["starttime"]
     starts = mdates.date2num(starts)
     # paths = get_all_subkeys(database, "path") #does not work
-    paths = [database["path"]]
+    paths = database["path"]
     # end = get_all_subkeys(database, "date_end")
     # zeros = get_all_subkeys(database, "n_zeros")
     # sampling_rate = get_all_subkeys(database, "sampling_rate")
@@ -135,6 +135,7 @@ def show_waveforms(
                 plot_style["color"] = COLORS[trace_id]
                 if event_id == 0:
                     plot_style["label"] = trace.stats.channel
+                plot_style["linewidth"] = 1
 
                 # Plot
                 axes[0].plot(trace_times, trace_data, **plot_style)
