@@ -109,7 +109,7 @@ def show_waveforms(
                 mdates.num2date(timestamp + segment / 3600 / 24)
             )
             # stream = reader(paths[tag_id], trim=(start, end)) #ERROR trim option not accepted
-            stream = reader(paths[tag_id])
+            stream = reader([paths[tag_id]])
             n_channels = len(stream)
             if n_channels == 0:
                 continue
