@@ -36,7 +36,7 @@ from ..display import show_scatterings
 #     return stream
 
 
-def load_waveform(paths):
+def load_waveform(paths, trim=None):
 
     stream = obspy.Stream()
     for path in paths:
@@ -47,9 +47,12 @@ def load_waveform(paths):
     stream.decimate(4)
     stream.detrend("linear")
     stream.filter(type="highpass", freq=1)
-    starttime = max([tr.stats.starttime for tr in stream])
-    endtime = min([tr.stats.endtime for tr in stream])
-    stream.trim(starttime, endtime, fill_value=0)
+    if trim is not None:
+        stream.trim(*trim)
+    else:
+        starttime = max([tr.stats.starttime for tr in stream])
+        endtime = min([tr.stats.endtime for tr in stream])
+        stream.trim(starttime, endtime, fill_value=0)
     return stream
 
 
