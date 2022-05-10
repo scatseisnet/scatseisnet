@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 """Scattering network.
 
 author:
@@ -11,8 +11,16 @@ from .signal import pool
 from .wavelet import ComplexMorletBank
 
 
-class Network:
-    """Scattering network."""
+class ScatteringNetwork:
+    """Scattering network.
+
+    Attributes
+    ----------
+    banks: list of :class:`wavelet.ComplexMorletBank`
+        The filter banks of the scattering network at each layer.
+    sampling_rate: float
+        The sampling rate of the input time series. Default to 1.
+    """
 
     def __init__(self, layer_properties, bins=128, sampling_rate=1.0):
         """Initialize scattering network graph.
@@ -28,59 +36,65 @@ class Network:
             The input data sampling rate. This is useful to keep track of
             physical frequencies in the filterbanks properties.
         """
-        # Define banks
         self.banks = [ComplexMorletBank(bins, **p) for p in layer_properties]
         self.sampling_rate = sampling_rate
-        pass
 
     def transform_sample(self, sample, reduce_type=None):
         """Scattering network transformation.
 
-        Arguments
-        ---------
-        sample: np.ndarray
-            The input
+        Parameters
+        ----------
+        samples: np.ndarray
+            The input set of samples to transform.
+        reduce_type: str, optional
+            The reduction type (max, avg, or med).
         """
-        # loop over banks
+        # Initialize
         input_sample = sample
         output = list()
+
+        # Network transforms
         for bank in self.banks:
             scalogram = bank.transform(input_sample)
             input_sample = scalogram
             output.append(pool(scalogram, reduce_type))
+
         return output
 
     def transform(self, samples, reduce_type=None):
-        """Transform a series of samples into scattering domain.
+        """Transform a series of samples.
 
-        Arguments
-        ---------
+        This function is a wrapper to loop over a series of samples
+        with the `transform_sample` method.
+
+        Parameters
+        ----------
         samples: np.ndarray
-            The input data to transform.
-
-        reduce_type: str
-            The reduction type (max, avg, med).
+            The input set of samples to transform.
+        reduce_type: str, optional
+            The reduction type (max, avg, or med).
 
         Returns
         -------
-        features: list
+        features: list of numpy.ndarray
             The features per layer of the scattering network.
         """
-        # initialize empty lists for each layer
+        # Empty feature lists for each layer
         features = [[] for _ in range(self.depth)]
 
-        # transform each sample
+        # Transform each sample
         for sample in samples:
             scatterings = self.transform_sample(sample, reduce_type)
-            for index, scattering in enumerate(scatterings):
-                features[index].append(scattering)
+            for layer_index, scattering in enumerate(scatterings):
+                features[layer_index].append(scattering)
 
-        if cp.__name__ == "numpy":  # if using numpy instead of cupy
+        # Return the features (depending on GPU/CPU usage)
+        if cp.__name__ == "numpy":
             return [cp.array(feature) for feature in features]
         else:
             return [cp.array(feature).get() for feature in features]
 
     @property
     def depth(self):
-        """Network depth."""
+        """Network depth or number of layers."""
         return len(self.banks)

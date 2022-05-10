@@ -19,7 +19,7 @@ from tqdm import tqdm
 
 from .common import common_options
 
-from .. import inventory, signal, Network, io
+from .. import inventory, signal, ScatteringNetwork, io
 from ..display import show_scatterings
 
 
@@ -179,7 +179,9 @@ def transform(
         if 0 in db.index:
             sampling_rate = stream[0].stats.sampling_rate
             bins = int(segment * sampling_rate)
-            net = Network(octaves, resolution, quality, bins, sampling_rate)
+            net = ScatteringNetwork(
+                octaves, resolution, quality, bins, sampling_rate
+            )
             pickle.dump(net, open(filepath_network, "wb"))
             io.stdout("Saved network at", filepath_network)
 

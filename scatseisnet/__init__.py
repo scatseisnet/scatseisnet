@@ -4,7 +4,7 @@
 __all__ = [
     "display",
     "parse",
-    "Network",
+    "ScatteringNetwork",
     "inventory",
     "signal",
     "wavelet",
@@ -17,8 +17,8 @@ from . import inventory
 from . import signal
 from . import hierarchy
 from .io import parse
-from .network import Network
+from .network import ScatteringNetwork
 
 from pkg_resources import get_distribution
 
-__version__ = get_distribution('scatseisnet').version
+__version__ = get_distribution("scatseisnet").version
