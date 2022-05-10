@@ -93,7 +93,7 @@ def get_prediction(linkage, population_size):
     return predictions
 
 
-def show_dendrogram(linkage, ax=plt.gca(), depth=30):
+def show_dendrogram(linkage, ax=None, depth=30):
     """Show dendrogram and returns basic cluster informations.
 
     Arguments
@@ -113,6 +113,9 @@ def show_dendrogram(linkage, ax=plt.gca(), depth=30):
     prediction: np.ndarray
         The cluster prediction per sample.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
     # Show and get dendrogram
     with plt.rc_context({"lines.linewidth": 0.7}):
         dendrogram_infos = hierarchy.dendrogram(
