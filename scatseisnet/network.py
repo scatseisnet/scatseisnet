@@ -15,11 +15,11 @@ class Network:
     """Scattering network."""
 
     def __init__(self, layer_properties, bins=128, sampling_rate=1.0):
-        """Initialize graph.
+        """Initialize scattering network graph.
 
-        Arguments
-        ---------
-        layer_properties: list
+        Parameters
+        ----------
+        layer_properties: list of dict
             The wavelet bank properties at each layer. Check the
             ComplexMorletBank class for details about the arguments.
         bins: int, optional
