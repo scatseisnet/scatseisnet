@@ -14,32 +14,22 @@ from .wavelet import ComplexMorletBank
 class Network:
     """Scattering network."""
 
-    def __init__(self, octaves, resolution, quality, bins, sampling_rate=1.0):
+    def __init__(self, layer_properties, bins=128, sampling_rate=1.0):
         """Initialize graph.
 
         Arguments
         ---------
-        args: :class:`argparse.Namespace`
-            The input arguments. Since most of the input arguments are
-            dedicated to the scattering newtork architecture, they are all
-            passed to this constructor. Note that almost all the attributes
-            of the args are attributed to the present class.
-
-        Keyword arguments
-        -----------------
-        sampling: float (optional)
+        layer_properties: list
+            The wavelet bank properties at each layer. Check the
+            ComplexMorletBank class for details about the arguments.
+        bins: int, optional
+            The number of samples per input segment.
+        sampling_rate: float, optional
             The input data sampling rate. This is useful to keep track of
             physical frequencies in the filterbanks properties.
-
-        channels: list (optional)
-            A list with channels names. At the time this is used only for
-            getting the number of channels for each data samples, but it can
-            later be used for naming the scalograms and scatterings.
         """
-
-        # define banks
-        bank_properties = zip(octaves, resolution, quality)
-        self.banks = [ComplexMorletBank(bins, *p) for p in bank_properties]
+        # Define banks
+        self.banks = [ComplexMorletBank(bins, **p) for p in layer_properties]
         self.sampling_rate = sampling_rate
         pass
 
@@ -49,7 +39,7 @@ class Network:
         Arguments
         ---------
         sample: np.ndarray
-            The input 
+            The input
         """
         # loop over banks
         input_sample = sample
@@ -62,14 +52,14 @@ class Network:
 
     def transform(self, samples, reduce_type=None):
         """Transform a series of samples into scattering domain.
-        
+
         Arguments
         ---------
         samples: np.ndarray
             The input data to transform.
-        
+
         reduce_type: str
-            The reduction type (max, avg, med). 
+            The reduction type (max, avg, med).
 
         Returns
         -------
@@ -85,7 +75,7 @@ class Network:
             for index, scattering in enumerate(scatterings):
                 features[index].append(scattering)
 
-        if cp.__name__ == "numpy": # if using numpy instead of cupy
+        if cp.__name__ == "numpy":  # if using numpy instead of cupy
             return [cp.array(feature) for feature in features]
         else:
             return [cp.array(feature).get() for feature in features]
