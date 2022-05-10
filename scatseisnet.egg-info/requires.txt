@@ -1,0 +1,11 @@
+astropy
+click
+fastcluster
+nmmn
+numpy
+obspy
+pandas
+parse
+seaborn
+sklearn
+tqdm

@@ -1,0 +1,3 @@
+[console_scripts]
+scatseisnet = scatseisnet.cli.cli:main
+
