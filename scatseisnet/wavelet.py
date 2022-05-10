@@ -105,7 +105,13 @@ class ComplexMorletBank:
     """Complex Morlet filter bank."""
 
     def __init__(
-        self, bins, octaves, resolution=1, quality=4, taper_alpha=1e-3, sampling_rate=1
+        self,
+        bins,
+        octaves,
+        resolution=1,
+        quality=4,
+        taper_alpha=1e-3,
+        sampling_rate=1,
     ):
         """Filter bank creation.
 
@@ -195,7 +201,7 @@ class ComplexMorletBank:
     @property
     def scales(self):
         """Wavelet bank scaling factors."""
-        return 2 ** self.ratios
+        return 2**self.ratios
 
     def centers(self, sampling_rate=1):
         """Wavelet bank center frequencies."""
@@ -204,4 +210,3 @@ class ComplexMorletBank:
     def widths(self, sampling_rate=1):
         """Wavelet bank temporal widths."""
         return self.quality / self.centers(sampling_rate)
-
