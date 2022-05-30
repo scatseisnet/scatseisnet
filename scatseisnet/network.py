@@ -5,7 +5,7 @@ author:
     Leonard Seydoux and Randall Balestriero
 """
 
-import cupy as cp
+import numpy as np
 
 from .signal import pool
 from .wavelet import ComplexMorletBank
@@ -88,11 +88,8 @@ class ScatteringNetwork:
             for layer_index, scattering in enumerate(scatterings):
                 features[layer_index].append(scattering)
 
-        # Return the features (depending on GPU/CPU usage)
-        if cp.__name__ == "numpy":
-            return [cp.array(feature) for feature in features]
-        else:
-            return [cp.array(feature).get() for feature in features]
+        return [np.array(feature) for feature in features]
+
 
     @property
     def depth(self):
