@@ -5,7 +5,7 @@ author:
     Leonard Seydoux and Randall Balestriero
 """
 
-import cupy as cp
+
 import numpy as np
 
 from scipy.signal import tukey
@@ -38,13 +38,13 @@ def gaussian_window(x, width):
         shape (len(width), len(x)).
     """
     # turn parameters into a numpy arrays for dimension check
-    x = cp.array(x)
-    width = cp.array(width)
+    x = np.array(x)
+    width = np.array(width)
 
     # add new axis for outer product if several widths are given
     width = width[:, None] if width.shape and (width.ndim == 1) else width
 
-    return cp.exp(-((x / width) ** 2))
+    return np.exp(-((x / width) ** 2))
 
 
 def complex_morlet(x, center, width):
@@ -84,9 +84,9 @@ def complex_morlet(x, center, width):
         a matrix with shape (len(width), len(x)).
     """
     # turn parameters into a numpy arrays for dimension check
-    x = cp.array(x)
-    width = cp.array(width)
-    center = cp.array(center)
+    x = np.array(x)
+    width = np.array(width)
+    center = np.array(center)
 
     # add new axis for outer product if several widths are given
     width = width[:, None] if width.shape else width
@@ -98,7 +98,7 @@ def complex_morlet(x, center, width):
             width.shape == center.shape
         ), f"Shape for widths {width.shape} and centers {center.shape} differ."
 
-    return gaussian_window(x, width) * cp.exp(2j * cp.pi * center * x)
+    return gaussian_window(x, width) * np.exp(2j * np.pi * center * x)
 
 
 class ComplexMorletBank:
@@ -142,9 +142,9 @@ class ComplexMorletBank:
 
         # generate bank
         self.wavelets = complex_morlet(self.times, self.centers, self.widths)
-        self.spectra = cp.fft.fft(self.wavelets)
+        self.spectra = np.fft.fft(self.wavelets)
         self.size = self.wavelets.shape[0]
-        self.input_taper = cp.array(tukey(bins, alpha=input_taper_alpha))
+        self.input_taper = np.array(tukey(bins, alpha=input_taper_alpha))
         pass
 
     def transform(self, sample):
@@ -158,15 +158,15 @@ class ComplexMorletBank:
 
         Returns
         -------
-        wx: cp.ndarray
+        wx: np.ndarray
             The scalograms for all channels with shape (the ellipsis stands for
             unknown number of input dimensions)
             `n_channels, ..., n_filters, n_bins`.
         """
-        sample = cp.fft.fft(cp.array(sample) * self.input_taper)
+        sample = np.fft.fft(np.array(sample) * self.input_taper)
         convolved = sample[..., None, :] * self.spectra
-        scalogram = cp.fft.fftshift(cp.fft.ifft(convolved), axes=-1)
-        return cp.abs(scalogram)
+        scalogram = np.fft.fftshift(np.fft.ifft(convolved), axes=-1)
+        return np.abs(scalogram)
 
     @property
     def times(self):
