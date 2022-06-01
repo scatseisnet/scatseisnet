@@ -36,7 +36,7 @@ class ScatteringNetwork:
             The input data sampling rate. This is useful to keep track of
             physical frequencies in the filterbanks properties.
         """
-        self.banks = [ComplexMorletBank(bins, **p) for p in layer_properties]
+        self.banks = [ComplexMorletBank(bins, sampling_rate=sampling_rate, **p) for p in layer_properties]
         self.sampling_rate = sampling_rate
 
     def transform_sample(self, sample, reduce_type=None):
