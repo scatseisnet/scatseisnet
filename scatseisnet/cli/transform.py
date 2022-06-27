@@ -75,10 +75,10 @@ def load_waveform(paths, trim=None):
 @click.option(
     "--pooling",
     "-p",
-    type=click.Choice(("max", "avg", "med")),
-    default="max",
+    type=click.Choice(("np.max", "np.mean", "np.median")),
+    default="np.max",
     show_default=True,
-    help="Pooling type.",
+    help="Function to use for pooling method.",
 )
 @click.option(
     "--octaves",
