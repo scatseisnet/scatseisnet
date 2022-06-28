@@ -75,9 +75,14 @@ def pool(x, reduce_function= np.max):
         The data pooled with same shape of input data minus last dimension.
     """
 
-    if reduce_function is None:
+    if reduce_type == "avg" :
+        x.mean(axis=-1)
+    if reduce_type == "max" :
+        x.max(axis=-1)
+    if reduce_type == "med" :
+        np.median(x,axis=-1)
+    if reduce_type is None:
         return x
-    return reduce_function(x,axis=-1)
 
 
 def reshape_features(features, net):
