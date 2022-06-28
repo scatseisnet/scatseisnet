@@ -59,7 +59,7 @@ def inventory(
     the same date at once with the obspy's read routine with the following
     command: 
 
-        scatnet inventory --datapath /path/to/data/{tag}/HH{channel}/{tag}.HH{channel} --channels Z E --tag * --filename_inventory inventory
+        scatseisnet inventory --datapath /path/to/data/{tag}/HH{channel}/{tag}.HH{channel} --channels Z E --tag * --filename_inventory inventory
 
     From this command, the parser will determine the following list of tags
     (that can be restricted to more specific regular expression with the --tag

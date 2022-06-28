@@ -55,9 +55,11 @@ def show_waveforms(
     # inventory.read(file_inventory)
     # _, paths, starts, *_ = inventory.read(file_inventory)
     # starts = [mdates.datestr2num(t) for t in starts]
-    starts = get_all_subkeys(database, "date_start")
+    # starts = get_all_subkeys(database, "date_start") #does not work
+    starts = database["starttime"]
     starts = mdates.date2num(starts)
-    paths = get_all_subkeys(database, "path")
+    # paths = get_all_subkeys(database, "path") #does not work
+    paths = database["path"]
     # end = get_all_subkeys(database, "date_end")
     # zeros = get_all_subkeys(database, "n_zeros")
     # sampling_rate = get_all_subkeys(database, "sampling_rate")
@@ -106,7 +108,7 @@ def show_waveforms(
             end = obspy.UTCDateTime(
                 mdates.num2date(timestamp + segment / 3600 / 24)
             )
-            stream = reader(paths[tag_id], trim=(start, end))
+            stream = reader([paths[tag_id]], trim=(start, end))
             n_channels = len(stream)
             if n_channels == 0:
                 continue
@@ -132,6 +134,7 @@ def show_waveforms(
                 plot_style["color"] = COLORS[trace_id]
                 if event_id == 0:
                     plot_style["label"] = trace.stats.channel
+                plot_style["linewidth"] = 1
 
                 # Plot
                 axes[0].plot(trace_times, trace_data, **plot_style)

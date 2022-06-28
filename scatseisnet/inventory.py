@@ -55,7 +55,7 @@ def inventorize(parsable_path, channel_pattern, tag_pattern):
     index = 0
     for filepath in tqdm(filepaths_matching, desc="Making inventory"):
 
-        #fix windows filepath
+        # Fix Windows filepath (temporary solution)
         if  "\\" in filepath:
             filepath=filepath.replace("\\", "/")
 

@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 from matplotlib import ticker
 from string import ascii_lowercase as letters
 
-from ..inventory import read
+# from ..inventory import read
 from ..io import stdout
 
 plt.rcParams["figure.figsize"] = 5, 5

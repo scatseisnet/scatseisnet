@@ -1,0 +1,133 @@
+stages:
+  - static analysis
+  - test
+  - deploy to PyPI
+  - deploy to Conda
+  - deploy
+
+python-black:
+  image: python:3.7-slim
+  stage: static analysis
+  script:
+    - pip install black
+    - black --check .
+  only:
+    - develop
+  allow_failure: true
+
+# py37-test-conda:
+  # image: continuumio/miniconda3:4.7.12 #python 3.7.4
+  # stage: test
+  # script:
+    # - pip install nmmn
+    # - conda install -c conda-forge pytest-cov codecov numpy obspy parse click fastcluster astropy
+    # - conda install -c anaconda pandas
+    # - grep -rli 'import cupy' * | xargs -i@ sed -i 's/cupy/numpy/g' @ #replace cupy with numpy because no gpu on CI runner
+    # - pip install -e .
+    # - python -m pytest --cov=./
+    # - codecov --token=$CODECOV_TOKEN
+  # except:
+    # - tags
+
+py37-test-pip:
+  image: python:3.7-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc #required for installing obspy
+    # - pip install nmmn pytest-cov codecov numpy parse click fastcluster astropy pandas tqdm seaborn sklearn
+    # - pip install obspy
+    - pip install pytest-cov codecov
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
+    - pip install -e .
+    - python -m pytest --cov=./
+    - codecov --token=$CODECOV_TOKEN
+  except:
+    - tags
+
+py38-test-pip:
+  image: python:3.8-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc #required for installing obspy
+    - pip install pytest-cov codecov
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
+    - pip install -e .
+    - python -m pytest --cov=./
+  except:
+    - tags
+
+py39-test-pip:
+  image: python:3.9-slim
+  stage: test
+  script:
+    - apt update
+    - apt install -y gcc #required for installing obspy
+    - pip install pytest-cov codecov
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy because no gpu on CI runner
+    - pip install -e .
+    - python -m pytest --cov=./
+  except:
+    - tags
+
+deploy_to_PyPI_cpu_version:
+  image: python:3.7-slim
+  stage: deploy to PyPI
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD_CPU
+  script:
+    - pip install twine
+    - find "./scatseisnet" -type f -exec sed -i "s/cupy/numpy/g" {} \; #replace cupy with numpy for cpu-only version
+    - python setup.py sdist bdist_wheel
+    - twine upload --verbose dist/* #upload to real repo
+    # - twine upload --verbose --repository testpypi dist/* #upload to test repo
+  only:
+    - tags
+
+deploy_to_PyPI_gpu_version:
+  image: python:3.7-slim
+  stage: deploy to PyPI
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD_GPU
+  script:
+    - pip install twine
+    - find "./setup.py" -type f -exec sed -i 's/name="scatseisnet"/name="scatseisnet-gpu"/g' {} \; #rename package for gpu-only version
+    - python setup.py sdist bdist_wheel
+    - twine upload --verbose dist/* #upload to real repo
+    # - twine upload --verbose --repository testpypi dist/* #upload to test repo
+  only:
+    - tags
+
+# deploy_to_Conda:
+  # image: continuumio/miniconda3:4.8.2
+  # stage: deploy to Conda
+  # variables:
+    # TWINE_USERNAME: $PYPI_USERNAME
+    # TWINE_PASSWORD: $PYPI_PASSWORD
+  # script:
+    # - sed -i "s/covseisnet_version/$CI_COMMIT_TAG/g" conda-config/meta.yaml
+    # - conda install conda-build anaconda-client
+    # - conda config --set anaconda_upload yes
+    # - conda config --append channels conda-forge
+    # - conda-build --token $ANACONDA_PASSWORD conda-config
+  # only:
+    # - tags
+
+# pages:
+  # image: python:3.7-slim
+  # stage: deploy
+  # script:
+    # - apt update
+    # - apt install -y gcc
+    # - pip install sphinx sphinx_gallery recommonmark sphinx_rtd_theme numpy scipy
+    # - pip install obspy
+    # - sphinx-build -b html ./docs/source public
+  # artifacts:
+    # paths:
+      # - public
+  # only:
+    # - master
+    # - develop
