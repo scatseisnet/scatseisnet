@@ -6,7 +6,7 @@ author:
 """
 
 
-import numpy as np
+import cupy as np
 
 from scipy.signal import tukey
 
@@ -198,7 +198,7 @@ class ComplexMorletBank:
     @property
     def scales(self):
         """Wavelet bank scaling factors."""
-        return 2**self.ratios
+        return 2 ** self.ratios
 
     @property
     def centers(self):

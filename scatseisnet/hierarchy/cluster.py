@@ -68,10 +68,7 @@ def linkage(x, distance="ward"):
     link:
         Linkage matrix.
     """
-    # linkage
-    link = linkage_vector(x, distance)
-    print("Linkage calculated")
-    return link
+    return linkage_vector(x, distance)
 
 
 def fcluster(link, threshold):

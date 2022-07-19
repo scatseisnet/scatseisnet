@@ -6,6 +6,7 @@ Date: June, 2021
 Email: leonard.seydoux@univ-grenoble-alpes.fr
 """
 import numpy as np
+import pandas as pd
 
 from matplotlib import dates as mdates
 from matplotlib import pyplot as plt
@@ -145,9 +146,7 @@ def show_dendrogram(linkage, ax=None, depth=30):
     return predictions
 
 
-def dendrogram(
-    linkage, times, n_clusters, hourly=np.arange(24), n_cal_bins=150
-):
+def dendrogram(linkage, times, n_clusters, n_cal_bins=150):
 
     # Deactivate axes basic properties
     spines_off = {
@@ -166,26 +165,18 @@ def dendrogram(
         figure_kwargs = dict(sharey=True, figsize=figsize, gridspec_kw=gs)
         figure, axes = plt.subplots(1, 4, **figure_kwargs)
 
-    # Axes unpack
-    ax_dendrogram, ax_cal, ax_hourly, ax_population = axes
-
     # Calendar bins
-    timestamps = mdates.date2num(times)
-    edge_shift = 0.1 * (timestamps[-1] - timestamps[0])
-    start, end = timestamps[0] - edge_shift, timestamps[-1] + edge_shift
-    cal_bins = np.linspace(start, end, n_cal_bins)
-    cal_step = cal_bins[1] - cal_bins[0]
-    h_step = hourly[1] - hourly[0]
+    cal = pd.date_range(times[0], times[-1], n_cal_bins)
 
     # Show dendrogram
-    predictions = show_dendrogram(linkage, ax=ax_dendrogram, depth=n_clusters)
+    predictions = show_dendrogram(linkage, ax=axes[0], depth=n_clusters)
     classes = sorted(set(predictions))
 
     # Show other cluster properties
     for cluster, color in zip(classes, COLORS):
 
         # Cluster coordinates
-        yshift = (cluster - 1) * 10 + 5
+        y0 = (cluster - 1) * 10 + 5
         indexes = predictions == cluster
 
         # Population size
@@ -193,65 +184,60 @@ def dendrogram(
         ratio = 100 * size / len(times)
 
         # Calendar occurrences
-        cluster_times = times[indexes]
-        cluster_timestamps = timestamps[indexes]
-        cluster_hours = [time.hour for time in cluster_times]
-        cal_counts, _ = np.histogram(cluster_timestamps, cal_bins)
-        cal_counts = cal_counts / cal_counts.max()
+        rate, _ = np.histogram(times[indexes], cal)
+        rate = 5 * rate / rate.max()
+        rate += y0
+        axes[1].step(cal[:-1], rate, "k", lw=0.5, where="post")
+        axes[1].fill_between(
+            cal[:-1], y0, rate, step="post", lw=0, color=color
+        )
 
         # Hourly occurrences
-        hourly_counts = np.sum(cluster_hours == hourly[:, None], axis=1)
-        hourly_counts = hourly_counts / hourly_counts.max()
+        hours = times[indexes].hour
+        hours_counts, _ = np.histogram(hours, np.arange(25))
+        hours_counts = 5 * hours_counts / hours_counts.max()
+        hours_counts += y0
+        axes[2].step(np.arange(24), hours_counts, "k", lw=0.5, where="post")
+        axes[2].fill_between(
+            np.arange(24), y0, hours_counts, lw=0, step="post", color=color
+        )
 
         # Population graph
-        bar_style = dict(height=3, color=color, ec="0.3", lw=0.5, align="edge")
-        text_style = dict(size=6, va="center", color=color)
+        bar_style = dict(height=3, color=color, ec="k", lw=0.5, align="edge")
+        text_style = dict(va="center", color=color, size="small")
         text_label = f" {size}"
-        ax_population.barh(yshift, ratio, **bar_style)
-        ax_population.text(ratio, yshift + 1.5, text_label, **text_style)
-
-        # Calendar graph
-        bar_style = dict(bottom=yshift, width=cal_step, fc=color, align="edge")
-        step_style = dict(c="0.3", lw=0.5, where="post")
-        ax_cal.bar(cal_bins[:-1], cal_counts * 5, **bar_style)
-        ax_cal.step(cal_bins[:-1], cal_counts * 5 + yshift, **step_style)
-
-        # Hourly graph
-        bar_style = dict(bottom=yshift, width=h_step, fc=color, align="edge")
-        step_style = dict(c="0.3", lw=0.5, where="post")
-        ax_hourly.bar(hourly, hourly_counts * 5, **bar_style)
-        ax_hourly.step(hourly, hourly_counts * 5 + yshift, **step_style)
+        axes[-1].barh(y0, ratio, **bar_style)
+        axes[-1].text(ratio, y0 + 1.8, text_label, **text_style)
 
     # Labels dendrogram
-    ax_dendrogram.set_xlabel("Rescaled distance")
-    ax_dendrogram.set_yticklabels([])
-    ax_dendrogram.yaxis.set_label_position("right")
+    axes[0].set_xlabel("Distance", loc="left")
+    axes[0].set_yticklabels([])
+    axes[0].yaxis.set_label_position("right")
 
     # Labels population
-    ax_population.set_yticks(10 * np.arange(len(classes)) + 5)
-    ax_population.set_xlabel("Relative\npopulation size (%)", loc="left")
+    axes[-1].set_yticks(10 * np.arange(len(classes)) + 5)
+    axes[-1].set_xlabel("Relative\npopulation size (%)", loc="left")
 
-    # Labels calendar
-    ax_cal.set_yticks(10 * np.arange(len(classes)) + 5)
-    ax_cal.set_xlabel("Calendar date", loc="left")
+    # # Labels calendar
+    axes[1].set_yticks(10 * np.arange(len(classes)) + 5)
+    axes[1].set_xlabel("Calendar date", loc="left")
     dateticks = mdates.AutoDateLocator()
     datelabels = mdates.ConciseDateFormatter(dateticks, show_offset=False)
-    ax_cal.xaxis.set_major_locator(dateticks)
-    ax_cal.xaxis.set_major_formatter(datelabels)
-    ax_cal.set_xlim(start, end)
-    plt.setp(ax_cal.get_xticklabels(), rotation="vertical")
+    axes[1].xaxis.set_major_locator(dateticks)
+    axes[1].xaxis.set_major_formatter(datelabels)
+    plt.setp(axes[1].get_xticklabels(), rotation="vertical")
 
     # Labels hourly
     hours_ticks = range(0, 25, 12)
-    hours_labels = [f"{h:02d}" for h in hours_ticks]
-    ax_hourly.set_xlim(0, 24)
-    ax_hourly.set_xlabel("Local\ntime (hours)", loc="left")
-    ax_hourly.set_xticks(hours_ticks)
-    ax_hourly.set_xticklabels(hours_labels)
+    hours_labels = [f"{h:0d}" for h in hours_ticks]
+    axes[2].set_xlim(0, 24)
+    axes[2].set_xlabel("Local\ntime (hours)", loc="left")
+    axes[2].set_xticks(hours_ticks)
+    axes[2].set_xticklabels(hours_labels)
 
     # All-axes cosmetics
     for ax, letter in zip(axes, letters):
         ax.grid(clip_on=False)
-        ax.set_title(letter, loc="left")
+        ax.set_title(letter, loc="left", weight="bold")
 
     return figure, predictions

@@ -5,7 +5,7 @@ author:
     Leonard Seydoux and Randall Balestriero
 """
 
-import numpy as np
+import cupy as np
 
 from .signal import pool
 from .wavelet import ComplexMorletBank
@@ -36,7 +36,10 @@ class ScatteringNetwork:
             The input data sampling rate. This is useful to keep track of
             physical frequencies in the filterbanks properties.
         """
-        self.banks = [ComplexMorletBank(bins, sampling_rate=sampling_rate, **p) for p in layer_properties]
+        self.banks = [
+            ComplexMorletBank(bins, sampling_rate=sampling_rate, **p)
+            for p in layer_properties
+        ]
         self.sampling_rate = sampling_rate
 
     def transform_sample(self, sample, reduce_type=None):
@@ -89,7 +92,6 @@ class ScatteringNetwork:
                 features[layer_index].append(scattering)
 
         return [np.array(feature) for feature in features]
-
 
     @property
     def depth(self):
