@@ -56,7 +56,7 @@ def segmentize(x, window_size, stride=None):
     return np.array([x for x in segment(x, window_size, stride)])
 
 
-def pool(x, reduce_function= "max"):
+def pool(x, reduce_type= "max"):
     """Pooling operation performed on the last axis.
 
     Arguments
