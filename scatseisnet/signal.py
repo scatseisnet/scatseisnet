@@ -2,58 +2,69 @@
 """Signal utilities.
 
 Authors: Leonard Seydoux and Randall Balestriero
-Email: leonard.seydoux@univ-grenoble-alpes.fr
-Date: May, 2021
+Email: lseydoux@mit.edu
+Date: May, 2022
 """
 
 import numpy as np
 
 
-def segment(x, window_size, stride=None):
-    """Segment a given array into (possibly overlapping) windows.
+def extract_segment(x, window_size, stride=None):
+    """Segment array into (possibly overlapping) windows.
 
-    Arguments
-    ---------
-    x: :class:`np.ndarray`
+    The function operates on the last dimension, e.g., considering an array x
+    of shape (a, b, c, d), the function will yield subarrays of dimension
+    (a, b, c, d') where d' is of size `window_size`.
+
+    Parameters
+    ----------
+    x: array_like
         The input array to segment.
-    
     window_size: int
-        The size of the sliding window.
-    
+        The number of samples per segment.
     stride: int, optional
-        The number of bins to slide the window with.
-    
+        The number of sliding samples between consecutive segments.
+
     Yields
     ------
-    The segmented array with shape.
+    segment: array_like
+        A data segment of shape (x.shape[:-1], window_size)
     """
-    bins = x.shape[-1]
-    index = 0
-    stride = window_size if stride is None else stride
-    while (index + window_size) <= bins:
-        yield x[..., index : index + window_size]
-        index += stride
+    # Convert sizes
+    input_size = x.shape[-1]
+    stride_size = stride or window_size
+
+    # Extract and yield segments until bound is reached
+    start_index, end_index = 0, window_size
+    while end_index <= input_size:
+        yield x[..., start_index:end_index]
+        start_index += stride_size
+        end_index = start_index + window_size
 
 
 def segmentize(x, window_size, stride=None):
-    """Segment a given array into (possibly overlapping) windows.
+    """Segment a array into (possibly overlapping) windows.
 
-    Arguments
-    ---------
-    x: :class:`np.ndarray`
+    This function allows to recover all at once the different segments. It
+    operates on the last dimension, e.g., considering an array x of shape (a,
+    b, c, d), the function will return subarrays of dimension (a, b, c, d', n)
+    where d' is of size `window_size` and `n` is the number of batches.
+
+    Parameters
+    ----------
+    x: array_like
         The input array to segment.
-    
     window_size: int
-        The size of the sliding window.
-    
+        The number of samples per segment.
     stride: int, optional
-        The number of bins to slide the window with.
-    
+        The number of sliding samples between consecutive segments.
+
     Returns
     -------
-    The segmented array with shape (n_windows, n_channels, n_times).
+    segments: array_like
+        All data segments of shape (x.shape[:-1], window_size, n_windows)
     """
-    return np.array([x for x in segment(x, window_size, stride)])
+    return np.array([y for y in extract_segment(x, window_size, stride)])
 
 
 def pool(x, reduce_function= "max"):

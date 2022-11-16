@@ -96,7 +96,7 @@ def save(figure, directory, filename):
     plt.close(figure)
 
 
-def show_dendrogram(linkage, threshold, ax=plt.gca(), depth=30):
+def show_dendrogram(linkage, threshold, ax=None, depth=30):
     """Show dendrogram and returns basic cluster informations.
 
     Arguments
@@ -117,8 +117,9 @@ def show_dendrogram(linkage, threshold, ax=plt.gca(), depth=30):
 
     Return
     ------
-
     """
+
+    ax = ax or plt.gca()
     # Show and get dendrogram
     with plt.rc_context({"lines.linewidth": 0.7}):
         dendrogram_infos = cluster.hierarchy.dendrogram(
@@ -163,7 +164,7 @@ def show_dendrogram(linkage, threshold, ax=plt.gca(), depth=30):
     return coords, sizes, colors, indexes
 
 
-def violin(data, bins, bottom=0, ax=plt.gca(), **kwargs):
+def violin(data, bins, bottom=0, ax=None, **kwargs):
     """Handmade violin from fill_between.
 
     Arguments
@@ -179,6 +180,8 @@ def violin(data, bins, bottom=0, ax=plt.gca(), **kwargs):
     ax: plt.Axes
         The axes to draw into.
     """
+    ax = ax or plt.gca()
+    
     y, x = np.histogram(data, bins)
     # bottom -= 2.5
     if len(y):

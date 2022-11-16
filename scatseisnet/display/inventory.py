@@ -20,9 +20,9 @@ plt.rcParams["figure.figsize"] = 5, 5
 plt.rcParams["figure.constrained_layout.use"] = True
 
 
-def show_availability(start, end, ax=plt.gca()):
+def show_availability(start, end, ax=None):
     """Show the daily data availability along calendar.
-    
+
     Arguments
     ---------
     start: array-like
@@ -33,6 +33,9 @@ def show_availability(start, end, ax=plt.gca()):
     ax: plt.Axes, optional
         Axes to use for drawing.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
     # Subproducts
     duration_days = end - start
     duration_hour = duration_days * 24
@@ -73,9 +76,9 @@ def show_availability(start, end, ax=plt.gca()):
     pass
 
 
-def show_gaps(start, end, ax=plt.gca()):
+def show_gaps(start, end, ax=None):
     """Show the daily data gaps along calendar.
-    
+
     Arguments
     ---------
     start: array-like
@@ -86,6 +89,10 @@ def show_gaps(start, end, ax=plt.gca()):
     ax: plt.Axes, optional
         Axes to use for drawing.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
+    # Calculate gaps
     gaps = (start[1:] - end[:-1]).clip(0, None)
 
     # Show
@@ -126,9 +133,9 @@ def show_gaps(start, end, ax=plt.gca()):
     ax.xaxis.set_major_formatter(datelabels)
 
 
-def show_sampling_rate(start, sampling_rate, ax=plt.gca()):
+def show_sampling_rate(start, sampling_rate, ax=None):
     """Show the number of zeros in segments.
-    
+
     Arguments
     ---------
     start: array-like
@@ -139,6 +146,9 @@ def show_sampling_rate(start, sampling_rate, ax=plt.gca()):
     ax: plt.Axes, optional
         Axes to use for drawing.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
     # Show
     ax.step(start, sampling_rate, where="post", c="C3")
     ax.fill_between(start, 0, sampling_rate, step="post", fc="C3", alpha=0.2)
@@ -158,9 +168,9 @@ def show_sampling_rate(start, sampling_rate, ax=plt.gca()):
     ax.xaxis.set_major_formatter(datelabels)
 
 
-def show_zeros(start, zeros, ax=plt.gca()):
+def show_zeros(start, zeros, ax=None):
     """Show the number of zeros in segments.
-    
+
     Arguments
     ---------
     start: array-like
@@ -171,6 +181,9 @@ def show_zeros(start, zeros, ax=plt.gca()):
     ax: plt.Axes, optional
         Axes to use for drawing.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
     # Show
     ax.step(start, zeros, where="post", c="C2")
     ax.fill_between(start, 0, zeros, step="post", fc="C2", alpha=0.2)
@@ -190,9 +203,9 @@ def show_zeros(start, zeros, ax=plt.gca()):
     ax.xaxis.set_major_formatter(datelabels)
 
 
-def show_npts(start, npts, ax=plt.gca()):
+def show_npts(start, npts, ax=None):
     """Show the number of zeros in segments.
-    
+
     Arguments
     ---------
     start: array-like
@@ -203,6 +216,9 @@ def show_npts(start, npts, ax=plt.gca()):
     ax: plt.Axes, optional
         Axes to use for drawing.
     """
+    # Generate axes
+    ax = ax or plt.gca()
+
     # Show
     npts = np.array(npts)
     for npt in npts.T:
@@ -257,7 +273,7 @@ def get_all_subkeys(dictionnary, subkey):
 
 def show_inventory(database, file_figure):
     """Show inventory and save figure.
-    
+
     Arguments
     ---------
     database: dict
@@ -277,4 +293,3 @@ def show_inventory(database, file_figure):
     fig = show_main(start, end, zeros, sampling_rate, npts)
     fig.savefig(file_figure)
     stdout("Figure saved at", file_figure)
-

@@ -1,11 +1,11 @@
-# coding: utf-8
-"""Wavelet definition and transform.
+# -*- coding: utf-8 -*-
+"""Wavelet manipulation.
 
 author:
     Leonard Seydoux and Randall Balestriero
 """
 
-
+import cupy as cp
 import numpy as np
 
 from scipy.signal import tukey
@@ -38,13 +38,13 @@ def gaussian_window(x, width):
         shape (len(width), len(x)).
     """
     # turn parameters into a numpy arrays for dimension check
-    x = np.array(x)
-    width = np.array(width)
+    x = cp.array(x)
+    width = cp.array(width)
 
     # add new axis for outer product if several widths are given
     width = width[:, None] if width.shape and (width.ndim == 1) else width
 
-    return np.exp(-((x / width) ** 2))
+    return cp.exp(-((x / width) ** 2))
 
 
 def complex_morlet(x, center, width):
@@ -84,9 +84,9 @@ def complex_morlet(x, center, width):
         a matrix with shape (len(width), len(x)).
     """
     # turn parameters into a numpy arrays for dimension check
-    x = np.array(x)
-    width = np.array(width)
-    center = np.array(center)
+    x = cp.array(x)
+    width = cp.array(width)
+    center = cp.array(center)
 
     # add new axis for outer product if several widths are given
     width = width[:, None] if width.shape else width
@@ -98,20 +98,14 @@ def complex_morlet(x, center, width):
             width.shape == center.shape
         ), f"Shape for widths {width.shape} and centers {center.shape} differ."
 
-    return gaussian_window(x, width) * np.exp(2j * np.pi * center * x)
+    return gaussian_window(x, width) * cp.exp(2j * cp.pi * center * x)
 
 
 class ComplexMorletBank:
     """Complex Morlet filter bank."""
 
     def __init__(
-        self,
-        bins,
-        octaves,
-        resolution=1,
-        quality=4,
-        input_taper_alpha=1e-3,
-        sampling_rate=1.0,
+        self, bins, octaves, resolution=1, quality=4, taper_alpha=1e-3, sampling_rate=1
     ):
         """Filter bank creation.
 
@@ -122,29 +116,35 @@ class ComplexMorletBank:
         ---------
         bins: int
             Number of samples in the time domain.
+
         octaves: int
             Number of octaves spanned by the filter bank.
-        resolution: int, optional
+
+        Keyword arguments
+        -----------------
+        resolution: int
             Number of filters per octaves (default 1).
-        quality: float, optional
-            Filter bank quality factor (constant, default 4).
-        input_taper_alpha: float, optional
-            Filter bank quality factor (constant, default 4).
-        sampling_rate: float, optional
+
+        sampling: float
             Input data sampling rate (default 1 Hz).
+
+        quality: float
+            Filter bank quality factor (constant, default 4).
+
         """
-        # Static properties
+        # attribution
         self.bins = bins
         self.octaves = octaves
         self.resolution = resolution
         self.quality = quality
-        self.sampling_rate = sampling_rate
 
         # generate bank
-        self.wavelets = complex_morlet(self.times, self.centers, self.widths)
-        self.spectra = np.fft.fft(self.wavelets)
+        self.wavelets = complex_morlet(
+            self.times(), self.centers(), self.widths()
+        )
+        self.spectra = cp.fft.fft(self.wavelets)
         self.size = self.wavelets.shape[0]
-        self.input_taper = np.array(tukey(bins, alpha=input_taper_alpha))
+        self.taper = cp.array(tukey(bins, alpha=taper_alpha))
         pass
 
     def transform(self, sample):
@@ -158,31 +158,28 @@ class ComplexMorletBank:
 
         Returns
         -------
-        wx: np.ndarray
+        wx: cp.ndarray
             The scalograms for all channels with shape (the ellipsis stands for
             unknown number of input dimensions)
             `n_channels, ..., n_filters, n_bins`.
         """
-        sample = np.fft.fft(np.array(sample) * self.input_taper)
+        sample = cp.fft.fft(cp.array(sample) * self.taper)
         convolved = sample[..., None, :] * self.spectra
-        scalogram = np.fft.fftshift(np.fft.ifft(convolved), axes=-1)
-        return np.abs(scalogram)
+        scalogram = cp.fft.fftshift(cp.fft.ifft(convolved), axes=-1)
+        return cp.abs(scalogram)
 
-    @property
-    def times(self):
+    def times(self, sampling_rate=1):
         """Wavelet bank symmetric time vector in seconds."""
-        duration = self.bins / self.sampling_rate
+        duration = self.bins / sampling_rate
         return np.linspace(-0.5, 0.5, num=self.bins) * duration
 
-    @property
-    def frequencies(self):
+    def frequencies(self, sampling_rate=1):
         """Wavelet bank frequency vector in hertz."""
-        return np.linspace(0, self.sampling_rate, self.bins)
+        return np.linspace(0, sampling_rate, self.bins)
 
-    @property
-    def nyquist(self):
+    def nyquist(self, sampling_rate=1):
         """Wavelet bank frequency vector in hertz."""
-        return self.sampling_rate / 2
+        return sampling_rate / 2
 
     @property
     def shape(self):
@@ -198,14 +195,13 @@ class ComplexMorletBank:
     @property
     def scales(self):
         """Wavelet bank scaling factors."""
-        return 2**self.ratios
+        return 2 ** self.ratios
 
-    @property
-    def centers(self):
+    def centers(self, sampling_rate=1):
         """Wavelet bank center frequencies."""
-        return self.scales * self.nyquist
+        return self.scales * self.nyquist(sampling_rate)
 
-    @property
-    def widths(self):
+    def widths(self, sampling_rate=1):
         """Wavelet bank temporal widths."""
-        return self.quality / self.centers
+        return self.quality / self.centers(sampling_rate)
+
