@@ -10,6 +10,7 @@ import numpy as np
 from .signal import pool
 from .wavelet import ComplexMorletBank
 
+from tqdm import tqdm
 
 class ScatteringNetwork:
     """Scattering network.
@@ -61,6 +62,28 @@ class ScatteringNetwork:
 
         return output
 
+    def inverse_transform_sample(self, sample):
+        """Scattering network inverse transformation.
+
+        Note that, if reduce_type is applied in transformation, this will create an (avg/max) inverse.
+
+        Parameters
+        ----------
+        samples: np.ndarray
+            The input set of samples to transform.
+        """
+        # Initialize
+        input_sample = sample
+        output = list()
+
+        # Network transforms
+        for bank in self.banks[::-1]:
+            scalogram = bank.inverse_transform(input_sample)
+            input_sample = scalogram
+            output.append(scalogram)
+
+        return output
+
     def transform(self, samples, reduce_type=None):
         """Transform a series of samples.
 
@@ -83,8 +106,34 @@ class ScatteringNetwork:
         features = [[] for _ in range(self.depth)]
 
         # Transform each sample
-        for sample in samples:
+        for sample in tqdm(samples):
             scatterings = self.transform_sample(sample, reduce_type)
+            for layer_index, scattering in enumerate(scatterings):
+                features[layer_index].append(scattering)
+
+        return [np.array(feature) for feature in features]
+
+    def inverse_transform(self, samples):
+        """Inverse Transform a series of samples.
+
+        This function is a wrapper to loop over a series of samples
+        with the `inverse_transform_sample` method.
+
+        Parameters
+        ----------
+        samples: np.ndarray
+            The input set of samples to transform.
+        Returns
+        -------
+        features: list of numpy.ndarray
+            The features per layer of the scattering network.
+        """
+        # Empty feature lists for each layer
+        features = [[] for _ in range(self.depth)]
+
+        # Transform each sample
+        for sample in tqdm(samples):
+            scatterings = self.inverse_transform_sample(sample)
             for layer_index, scattering in enumerate(scatterings):
                 features[layer_index].append(scattering)
 

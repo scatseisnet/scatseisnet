@@ -9,6 +9,7 @@ author:
 import numpy as np
 
 from scipy.signal import tukey
+from scipy.signal import deconvolve
 
 
 def gaussian_window(x, width):
@@ -167,6 +168,9 @@ class ComplexMorletBank:
         convolved = sample[..., None, :] * self.spectra
         scalogram = np.fft.fftshift(np.fft.ifft(convolved), axes=-1)
         return np.abs(scalogram)
+
+    def inverse_transform(self, sample):
+        return deconvolve(sample, self.spectra)
 
     @property
     def times(self):
