@@ -9,8 +9,18 @@ author:
 import numpy as np
 
 from scipy.signal import tukey
-from scipy.signal import deconvolve
 
+from scipy import fftpack
+
+def convolve(star, psf):
+    star_fft = fftpack.fftshift(fftpack.fftn(star))
+    psf_fft = fftpack.fftshift(fftpack.fftn(psf))
+    return fftpack.fftshift(fftpack.ifftn(fftpack.ifftshift(star_fft*psf_fft)))
+
+def deconvolve(star, psf):
+    star_fft = fftpack.fftshift(fftpack.fftn(star))
+    psf_fft = fftpack.fftshift(fftpack.fftn(psf))
+    return fftpack.fftshift(fftpack.ifftn(fftpack.ifftshift(star_fft/psf_fft)))
 
 def gaussian_window(x, width):
     """Gaussian window.
@@ -143,7 +153,6 @@ class ComplexMorletBank:
 
         # generate bank
         self.wavelets = complex_morlet(self.times, self.centers, self.widths)
-        self.spectra = np.fft.fft(self.wavelets)
         self.size = self.wavelets.shape[0]
         self.input_taper = np.array(tukey(bins, alpha=input_taper_alpha))
         pass
@@ -164,13 +173,12 @@ class ComplexMorletBank:
             unknown number of input dimensions)
             `n_channels, ..., n_filters, n_bins`.
         """
-        sample = np.fft.fft(np.array(sample) * self.input_taper)
-        convolved = sample[..., None, :] * self.spectra
-        scalogram = np.fft.fftshift(np.fft.ifft(convolved), axes=-1)
+
+        scalogram = convolve(sample, self.wavelets)
         return np.abs(scalogram)
 
     def inverse_transform(self, sample):
-        return deconvolve(sample, self.spectra)
+        return deconvolve(sample, self.wavelets)
 
     @property
     def times(self):
