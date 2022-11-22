@@ -7,5 +7,5 @@ obspy
 pandas
 parse
 seaborn
-sklearn
+scikit-learn
 tqdm

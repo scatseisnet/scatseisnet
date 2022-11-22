@@ -89,6 +89,8 @@ def pool(x, reduce_type="avg"):
         return x.mean(axis=-1)
     if reduce_type == "max":
         return x.max(axis=-1)
+    if reduce_type == "med":
+        return np.median(x,axis=-1)
     if reduce_type is None:
         return x
 
