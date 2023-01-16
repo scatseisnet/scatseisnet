@@ -5,7 +5,6 @@ author:
     Leonard Seydoux and Randall Balestriero
 """
 
-
 import numpy as np
 
 from scipy.signal import tukey
