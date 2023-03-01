@@ -140,3 +140,8 @@ cython_debug/
 # Settings from VSCodes
 .vscode/*
 .github/*
+
+# Remove data
+**/*.npz
+**/*.pickle
+.github
