@@ -3,7 +3,7 @@
 Package structure
 =================
 
-:mod:`scatseisnet.network`
+:mod:`scatseisnet.scatteringnetwork`
 -------------------------------------------------------------------------------
 
 .. automodule:: scatseisnet.scatteringnetwork
