@@ -1,5 +1,5 @@
 Welcome to ScatSeisNet's documentation!
-===================================
+========================================
 
 **ScatSeisNet** transforms seismic time series into scattering coefficients with a scattering netowrk.
 
