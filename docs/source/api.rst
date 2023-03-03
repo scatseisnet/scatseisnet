@@ -1,7 +1,11 @@
-API
-===
+.. _guide:
 
-.. autosummary::
-   :toctree: generated
+Package structure
+=================
 
-   scatseisnet/network
+:mod:`scatseisnet.network`
+-------------------------------------------------------------------------------
+
+.. automodule:: scatseisnet.network
+    :members:
+    :show-inheritance:
