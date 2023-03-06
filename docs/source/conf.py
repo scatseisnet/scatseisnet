@@ -7,9 +7,9 @@ sys.path.insert(0, os.path.abspath("../../"))
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'ScatSeisNet'
+copyright = '2021, Seydoux and Steinmann'
+author = 'Leonard Seydoux and Rene Steinmann'
 
 release = '0.1'
 version = '0.1.0'
@@ -22,6 +22,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'nbsphinx',
 ]
 
 intersphinx_mapping = {
