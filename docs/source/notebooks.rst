@@ -2,4 +2,4 @@
    :maxdepth: 2
    :caption: Contents:
 
-   1_scattering_network_design
+   notebooks/1_scattering_network_design
