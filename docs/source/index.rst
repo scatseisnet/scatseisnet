@@ -22,7 +22,7 @@ Contents
    notebooks
 
 Purpose and philosophy of this Package
-------------------------
+---------------------------------------
 In the recent years, we worked on a scattering network for seismic time series data, mainly for data exploration task involving dimensionality reduction and clustering.
 We've seen an increasing interest in the seismological community for this kind of approach, and we decided to make the code available to the community. 
 This package delivers the network instance and in the tutorials we introduce the scattering network together with some data exploration applications.
