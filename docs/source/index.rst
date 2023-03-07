@@ -34,4 +34,4 @@ If you use this package for your own scientific output, please cite one or more 
 
 - 2022: **Hierarchical Exploration of Continuous Seismograms With Unsupervised Learning**, this paper shows the first application of **ScatSeisNet** with Gabor wavelets in combination with hierarchical clustering for data exploration.
 
-- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of **ScatSeisNet** where we focus more on the aspect of interpreting the indepedent components retrieved from the scattering coefficients `link to paper <https://doi.org/10.1029/2022GL098854>`.
+- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of **ScatSeisNet** where we focus more on the aspect of interpreting the indepedent components retrieved from the scattering coefficients `link to paper <https://doi.org/10.1029/2022GL098854>`_
