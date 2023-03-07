@@ -30,8 +30,6 @@ Please note that the task and data at hand drive the choice of the exact design 
 The following papers show some possible applications and we hope that they can inspire you for your specific use case. 
 If you use this package for your own scientific output, please cite one or more of the following papers:
 
-- 2020: **Clustering earthquake signals and background noises in continuous seismic data with unsupervised deep learning**, this paper introduces the scattering network as a learnable network trained on the clustering loss of Gaussian mixture models. 
+- 2021: **Hierarchical Exploration of Continuous Seismograms With Unsupervised Learning**, this paper shows the first application of **ScatSeisNet** with Gabor wavelets in combination with hierarchical clustering for data exploration. `10.1029/2021JB022455 <https://doi.org/10.1029/2021JB022455>`_
 
-- 2022: **Hierarchical Exploration of Continuous Seismograms With Unsupervised Learning**, this paper shows the first application of **ScatSeisNet** with Gabor wavelets in combination with hierarchical clustering for data exploration.
-
-- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of **ScatSeisNet** where we focus more on the aspect of interpreting the indepedent components retrieved from the scattering coefficients `link to paper <https://doi.org/10.1029/2022GL098854>`_
+- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of **ScatSeisNet** where we focus more on the aspect of interpreting the independent components retrieved from the scattering coefficients. `10.1029/2022GL098854 <https://doi.org/10.1029/2022GL098854>`_
