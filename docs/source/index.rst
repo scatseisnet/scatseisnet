@@ -28,7 +28,10 @@ We've seen an increasing interest in the seismological community for this kind o
 This package delivers the network instance and in the tutorials we introduce the scattering network together with some data exploration applications.
 Please note that the task and data at hand drive the choice of the exact design of the scattering network and the tools used for data exploration.
 The following papers show some possible applications and we hope that they can inspire you for your specific use case. 
-If you use this package for your own scientific output, please cite one or more of the following papers: 
-- 2020: 
-- 2022: **Hierarchical Exploration of Continuous Seismograms With Unsupervised Learning**, this paper shows the first application of scatseisnet with Gabor wavelets in combination with hierarchical clustering for data exploration.
-- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of scatseisnet where we focus more on the aspect of interpreting the indepedent components retrieved from the scattering coefficients [link to paper](https://doi.org/10.1029/2022GL098854).
+If you use this package for your own scientific output, please cite one or more of the following papers:
+
+- 2020: **Clustering earthquake signals and background noises in continuous seismic data with unsupervised deep learning**, this paper introduces the scattering network as a learnable network trained on the clustering loss of Gaussian mixture models. 
+
+- 2022: **Hierarchical Exploration of Continuous Seismograms With Unsupervised Learning**, this paper shows the first application of **ScatSeisNet** with Gabor wavelets in combination with hierarchical clustering for data exploration.
+
+- 2022: **AI-Based Unmixing of Medium and Source Signatures From Seismograms: Ground Freezing Patterns**, it is the second application of **ScatSeisNet** where we focus more on the aspect of interpreting the indepedent components retrieved from the scattering coefficients 'link to paper <https://doi.org/10.1029/2022GL098854>'.
