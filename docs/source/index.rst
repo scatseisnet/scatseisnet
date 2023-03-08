@@ -29,7 +29,7 @@ Contents
    api
    notebooks
 
-Check out the :ref:`notebooks` for some hand-on tutorials.
+Check out the :sec:`notebooks` for some hand-on tutorials.
 
 Purpose and philosophy of this Package
 ---------------------------------------
