@@ -85,13 +85,13 @@ def pool(x, reduce_function= "max"):
         The data pooled with same shape of input data minus last dimension.
     """
 
-    if reduce_type == "avg" :
+    if reduce_function == "avg" :
         return x.mean(axis=-1)
-    if reduce_type == "max" :
+    if reduce_function == "max" :
         return x.max(axis=-1)
-    if reduce_type == "med":
+    if reduce_function == "med":
         return np.median(x, axis=-1)
-    if reduce_type is None:
+    if reduce_function is None:
         return x
 
 
