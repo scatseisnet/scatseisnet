@@ -3,13 +3,22 @@ Welcome to ScatSeisNet's documentation!
 
 **ScatSeisNet** transforms seismic time series into scattering coefficients with a scattering network, which resembles a convolutional network based on wavelelts.
 The code repository is hosted on github at: https://github.com/scatseisnet/scatseisnet
- 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
 
 .. note::
 
    This project is under active development.
+
+.. _installation:
+
+Installation
+------------
+
+To use scatseisnet, first install it using pip:
+
+.. code-block:: console
+
+   (.venv) $ pip install scatseisnet
+
 
 Contents
 --------
@@ -17,9 +26,10 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   usage
    api
    notebooks
+
+Check out the :ref:`notebooks` for some hand-on tutorials.
 
 Purpose and philosophy of this Package
 ---------------------------------------
