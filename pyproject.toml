@@ -4,5 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "scatseisnet"
+version = "0.1.0"
+description = "A short description of the package."
 authors = [{name = "Steinmann", email = "rene-steinmann@web.de"}]
 dynamic = ["version", "description"]
