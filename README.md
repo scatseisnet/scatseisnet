@@ -11,3 +11,9 @@ This package transforms seismic time series into scattering coefficients with a 
 There are some tutorials in the `notebooks` folder.
 
 Authors: Leonard Seydoux and Rene Steinmann, 2023
+
+## To-do's:
+ - [ ] add a license --> pypi release
+ - [ ] update tutorial 4, solve question around ignoring 2nd-order coefficients with f2>f1
+ - [ ] include a tutorial about clustering
+ - [ ] unsync gitlab
