@@ -1,5 +1,5 @@
-Notebook tutorials
-====================
+Notebooks
+==========
 
 
 .. toctree::
