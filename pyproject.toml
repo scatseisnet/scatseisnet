@@ -1,9 +1,8 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
+requires = ["flit_core >=3.2,<4","numpy>=1.24.2", "scipy>=1.10.1"]
 build-backend = "flit_core.buildapi"
 
 [project]
 name = "scatseisnet"
-dependencies =["numpy>=1.24.2", "scipy>=1.10.1"]
 authors = [{name = "Steinmann", email = "rene-steinmann@web.de"}]
 dynamic = ["version", "description"]
