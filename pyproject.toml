@@ -6,6 +6,6 @@ build-backend = "flit_core.buildapi"
 name = "scatseisnet"
 version = "0.1.0"
 description = "A short description of the package."
-dependencies =["numpy>=1.24.2", "scipy>=1.10.1"]
+#dependencies =["numpy>=1.24.2", "scipy>=1.10.1"]
 authors = [{name = "Steinmann", email = "rene-steinmann@web.de"}]
 dynamic = ["version", "description"]
