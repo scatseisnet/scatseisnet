@@ -66,7 +66,7 @@ def segmentize(x, window_size, stride=None):
     return np.array([y for y in extract_segment(x, window_size, stride)])
 
 
-def pool(x, reduce_type="avg"):
+def pool(x, reduce_function= "max"):
     """Pooling operation performed on the last axis.
 
     Arguments
@@ -84,9 +84,10 @@ def pool(x, reduce_type="avg"):
     data_pooled: symjax.tensor
         The data pooled with same shape of input data minus last dimension.
     """
-    if reduce_type == "avg":
+
+    if reduce_type == "avg" :
         return x.mean(axis=-1)
-    if reduce_type == "max":
+    if reduce_type == "max" :
         return x.max(axis=-1)
     if reduce_type == "med":
         return np.median(x, axis=-1)
