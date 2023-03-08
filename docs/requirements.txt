@@ -1,0 +1,6 @@
+numpy
+scipy
+nbsphinx
+ipython
+jupyter
+pygments
