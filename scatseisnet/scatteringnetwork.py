@@ -7,7 +7,6 @@ can be either `max`, `avg`, or `med`. The `transform` method returns a list of
 features per layer of the scattering network. The `transform_sample` method
 returns the scattering coefficients per layer of the scattering network.
 
-Made in 2019 by Léonard Seydoux (seydoux@ipgp.fr) and Randall Balestriero.
 """
 
 import numpy as np
