@@ -2,7 +2,7 @@
 
 <div align=center>
 
-![logo](docs/source/_static/logo_scatseisnet.svg)
+<img src=docs/source/_static/logo_scatseisnet.png width=250px/>
 
 [![Python Version](https://img.shields.io/pypi/pyversions/covseisnet)](https://pypi.org/project/covseisnet/)
 [![PyPI Version](https://img.shields.io/pypi/v/covseisnet.svg)](https://pypi.org/project/covseisnet/)\
