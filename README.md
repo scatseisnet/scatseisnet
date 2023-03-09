@@ -63,10 +63,22 @@ location where you have write access, and which should not change over time.
 You may also want to run the command in a virtual environment (e.g. conda) for a
 clean installation.
 
+### CPU-only installation
+
 ```bash
 git clone https://github.com/scatseisnet/scatseisnet.git 
 cd scatseisnet
 pip install -e .
+```
+
+### GPU usage
+
+If you want to use a GPU, you need to install the package with the package CuPy.
+The code will try to find it and use it if it is installed. You can install it
+with the following command.
+
+```bash
+pip install cupy
 ```
 
 ## Documentation
@@ -76,7 +88,7 @@ For now you can use the tutorials in the `notebooks` folder.
 
 ## To-do's
 
-- [ ] add a license --> pypi release
+- [x] add a license --> pypi release
 - [ ] update tutorial 4, solve question around ignoring 2nd-order coefficients with f2>f1
 - [ ] include a tutorial about clustering
 - [ ] unsync gitlab
