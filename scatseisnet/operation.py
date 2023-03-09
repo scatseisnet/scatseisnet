@@ -11,6 +11,7 @@ import numpy as np
 
 def segment(x, window_size, stride=None):
     """Segment a given array into (possibly overlapping) windows.
+
     Arguments
     ---------
     x: :class:`np.ndarray`
@@ -36,6 +37,7 @@ def segment(x, window_size, stride=None):
 
 def segmentize(x, window_size, stride=None):
     """Segment a given array into (possibly overlapping) windows.
+
     Arguments
     ---------
     x: :class:`np.ndarray`

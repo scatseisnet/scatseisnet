@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
     "nbsphinx",
 ]
 
@@ -38,10 +39,12 @@ templates_path = ["_templates"]
 
 html_theme = "pydata_sphinx_theme"
 
-# html_theme_options = {
-#     "logo_only": True,
-#     "style_nav_header_background": "#fcf4d2",
-# }
+html_theme_options = {
+    "pygment_light_style": "tango",
+    "pygment_dark_style": "monokai",
+}
+
+autosummary_generate = True
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

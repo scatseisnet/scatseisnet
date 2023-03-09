@@ -1,47 +1,61 @@
-"""Scattering network.
+"""Scattering network graph definition.
 
-This module contains the ScatteringNetwork class that implements the scattering
-network graph. The network is composed of a series of filter banks and pooling
-operations. The pooling operation is defined by the `reduce_type` parameter that
-can be either `max`, `avg`, or `med`. The `transform` method returns a list of
-features per layer of the scattering network. The `transform_sample` method
-returns the scattering coefficients per layer of the scattering network.
-
+This module contains the :class:`~.ScatteringNetwork` class that implements the
+scattering network graph. The network is composed of a series of filter banks
+and pooling operations. 
 """
+
+# Copyright (C) 2023 Léonard Seydoux
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 
-from .signal import pool
+from .operation import pool
 from .wavelet import ComplexMorletBank
 
 
 class ScatteringNetwork:
-    """Scattering network.
+    """Scattering network model.
+
+    Parameters
+    ----------
+    layer_kwargs: :class:`list` of :class:`dict`
+        The keyword argiments of each filter bank keyword arguments, in the form
+        of a :class:`list`. Each :class:`dict` object contains the keyword
+        arguments for the :class:`~.ComplexMorletBank`. The number of network
+        layers is defined by the length of this list. Please see the
+        :class:`~.ComplexMorletBank` documentation for more information about
+        the keyword arguments.
+    bins: :class:`int`, optional
+        Number of time samples per signal windows. By default, this value is
+        128. Note that once set, the value cannot be changed.
+    sampling_rate: :class:`float`, optional
+        Input data sampling rate in Hertz. This is useful to keep track of
+        physical frequencies in the filterbanks properties. The default value is
+        1.0 (reduced frequency).
 
     Attributes
     ----------
-    banks: list of ComplexMorletBank
-        The filter banks of the scattering network.
+    banks: :class:`list` of :class:`~.ComplexMorletBank`
+        Filter banks of the scattering network. The length of this list is equal
+        to the number of layers of the scattering network. Each filter bank is
+        an instance of the :class:`~.ComplexMorletBank` class.
     sampling_rate: float
-        The input data sampling rate in Hz.
+        Input data sampling rate in Hertz.
     """
 
     def __init__(self, layer_kwargs, bins=128, sampling_rate=1.0):
-        """Initialize scattering network graph.
-
-        Parameters
-        ----------
-        layer_kwargs: list of dict
-            The list of filter bank keyword arguments. Each dictionary contains
-            the keyword arguments for the ComplexMorletBank. The number of
-            network layers is defined by the length of this list.
-        bins: int, optional
-            The number of samples per input segment.
-        sampling_rate: float, optional
-            The input data sampling rate in Hz. This is useful to keep track of
-            physical frequencies in the filterbanks properties. The default
-            value is 1.0 (reduced frequency).
-        """
         self.sampling_rate = sampling_rate
         self.bins = bins
         self.banks = [
@@ -110,13 +124,13 @@ class ScatteringNetwork:
     def transform(self, samples, reduce_type=None):
         """Transform a set of samples.
 
-        This function is a wrapper to loop over a series of samples
-        with the `transform_sample` method. The `reduce_type` parameter
-        defines the pooling operation. It can be either `max`, `avg`, or `med`.
-
-        Note that if the `reduce_type` parameter is not defined, the function
+        This function is a wrapper to loop over a series of samples with the
+        :meth:`~.transform_sample` method. The parameter ``reduce_type`` defines
+        the pooling operation. It can be either ``"max"``, ``"avg"``, or
+        ``"med"``. Note that if ``reduce_type`` is ``None``, the function
         returns the scalogram of each layer of the scattering network (i.e. the
-        continuous wavelet transform of the input sample at each layer).
+        continuous wavelet transform of the input sample at each layer) without
+        any pooling operation.
 
         Parameters
         ----------
@@ -167,5 +181,8 @@ class ScatteringNetwork:
 
     @property
     def depth(self):
-        """Network depth or number of layers."""
+        """Network depth or number of layers. This property returns the number
+        of layers of the scattering network. It is equivalent to the length of
+        the :attr:`banks` attribute.
+        """
         return len(self.banks)

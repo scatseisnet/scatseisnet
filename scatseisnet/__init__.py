@@ -9,4 +9,4 @@ __all__ = [
 
 from . import wavelet
 from . import operation
-from .scatteringnetwork import ScatteringNetwork
+from .network import ScatteringNetwork
