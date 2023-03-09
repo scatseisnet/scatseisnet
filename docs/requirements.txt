@@ -4,3 +4,4 @@ nbsphinx
 ipython
 jupyter
 pygments
+pydata_sphinx_theme
