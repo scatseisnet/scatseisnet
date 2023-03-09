@@ -62,6 +62,15 @@ The following papers show some possible applications and we hope that they can i
 If you use this package for your own scientific output, please cite one or more
 of the following papers.
 
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks
+   api
+
 References
 ----------
 
