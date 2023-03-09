@@ -83,8 +83,7 @@ pip install cupy
 
 ## Documentation
 
-The documentation is still under construction.
-For now you can use the tutorials in the `notebooks` folder.
+Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/). You can find tutorials thererin in the form of notebooks.
 
 ## To-do's
 
