@@ -47,7 +47,7 @@ html_theme = "pydata_sphinx_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 
-html_logo = "_static/logo_scatseisnet_notext.svg"
+html_logo = "_static/logo_scatseisnet_notext.png"
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
