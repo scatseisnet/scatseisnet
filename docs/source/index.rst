@@ -99,6 +99,7 @@ Contents
    :maxdepth: 2
 
    notebooks
+   autoapi/scatseisnet/index
 
 References
 ----------
