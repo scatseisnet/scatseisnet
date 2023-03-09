@@ -17,6 +17,13 @@ version = "0.1.0"
 
 # -- General configuration
 
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "**.ipynb_checkpoints",
+]
+
 extensions = [
     "sphinx.ext.duration",
     "sphinx.ext.doctest",
@@ -24,7 +31,9 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
+    "autoapi.extension",
     "nbsphinx",
+    "IPython.sphinxext.ipython_console_highlighting",
 ]
 
 intersphinx_mapping = {
@@ -44,7 +53,9 @@ html_theme_options = {
     "pygment_dark_style": "monokai",
 }
 
-autosummary_generate = True
+
+autoapi_type = "python"
+autoapi_dirs = ["../../scatseisnet"]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
