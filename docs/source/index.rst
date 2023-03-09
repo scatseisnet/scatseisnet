@@ -1,10 +1,18 @@
-Welcome to ScatSeisNet's documentation!
-========================================
+Welcome to **scatseisnet**'s documentation!
+===========================================
 
-**ScatSeisNet** transforms seismic time series into scattering coefficients with a scattering network, which resembles a convolutional network based on wavelelts.
-The code repository is hosted on github at: https://github.com/scatseisnet/scatseisnet
+.. image:: _static/logo_scatseisnet.svg
+   :target: index.html
+   :width: 300
+   :align: center
 
-.. note::
+|
+
+The **scatseisnet** library contains programs to transform time series into scattering
+coefficients with a scattering network. The scattering network is a deep
+neural network with wavelet filters as convolutional layers. The code repository is hosted on github at: https://github.com/scatseisnet/scatseisnet
+
+.. warning::
 
    This project is under active development.
 
