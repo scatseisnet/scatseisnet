@@ -56,7 +56,6 @@ html_theme_options = {
 
 autoapi_type = "python"
 autoapi_dirs = ["../../scatseisnet"]
-autoapi_add_toctree_entry = False
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
