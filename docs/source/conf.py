@@ -34,10 +34,20 @@ extensions = [
     "autoapi.extension",
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
+    "sphinx_gallery.load_style",
+    "sphinx_favicon",
+    "sphinx_design",
+]
+
+favicons = [
+    "_static/logo_scatseisnet_notext.svg",
+    # "favicon-32x32.png",
+    # "icon.svg",
 ]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
+    "numpy": ("http://docs.scipy.org/doc/numpy/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
 }
 intersphinx_disabled_domains = ["std"]

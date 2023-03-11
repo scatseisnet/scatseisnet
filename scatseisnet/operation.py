@@ -1,9 +1,26 @@
-# coding: utf-8
-"""Signal utilities.
+"""Miscellaneous operations for scatseisnet.
 
-Authors: Leonard Seydoux and Randall Balestriero
-Email: leonard.seydoux@univ-grenoble-alpes.fr
-Date: May, 2021
+This module contains miscellaneous operations for scatseisnet, such as
+segmentation and pooling.
+
+.. dropdown:: Terms of use
+
+    .. code-block:: text
+
+        Copyright (C) 2021 Léonard Seydoux.
+
+        This program is free software: you can redistribute it and/or modify it
+        under the terms of the GNU General Public License as published by the
+        Free Software Foundation, either version 3 of the License, or (at your
+        option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        General Public License for more details.
+
+        You should have received a copy of the GNU General Public License along
+        with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import typing as T
@@ -11,23 +28,26 @@ import typing as T
 import numpy as np
 
 
-def segment(x, window_size, stride=None):
-    """Segment a given array into (possibly overlapping) windows.
+def segment(
+    x: np.ndarray,
+    window_size: int,
+    stride: T.Union[int, None] = None,
+) -> T.Generator[np.ndarray, None, None]:
+    """Segment array into overlapping windows.
 
     Arguments
     ---------
-    x: :class:`np.ndarray`
-        The input array to segment.
-
+    x: :class:`numpy.ndarray`
+        Array to segment.
     window_size: int
-        The size of the sliding window.
-
+        Sliding window size in numpy of points
     stride: int, optional
-        The number of bins to slide the window with.
+        Sliding window stride in numpy of points. If None, stride is equal to
+        window_size.
 
     Yields
     ------
-    The segmented array with shape.
+    The elements of the segmented array.
     """
     bins = x.shape[-1]
     index = 0
@@ -37,102 +57,50 @@ def segment(x, window_size, stride=None):
         index += stride
 
 
-def segmentize(x, window_size, stride=None):
-    """Segment a given array into (possibly overlapping) windows.
+def segmentize(
+    x: np.ndarray,
+    window_size: int,
+    stride: T.Union[int, None] = None,
+) -> np.ndarray:
+    """Segment array into overlapping windows.
 
     Arguments
     ---------
-    x: :class:`np.ndarray`
-        The input array to segment.
-
+    x: :class:`numpy.ndarray`
+        Array to segment.
     window_size: int
-        The size of the sliding window.
-
+        Sliding window size in numpy of points
     stride: int, optional
-        The number of bins to slide the window with.
+        Sliding window stride in numpy of points. If None, stride is equal to
+        window_size.
 
     Returns
     -------
-    The segmented array with shape (n_windows, n_channels, n_times).
+    The segmented array with shape ``(n_windows, n_channels, n_times)``.
     """
     return np.array([x for x in segment(x, window_size, stride)])
 
 
-def pool(x, reduce_type: T.Union[T.Callable, None] = None):
+def pool(
+    x: np.ndarray,
+    reduce_type: T.Union[T.Callable, None] = None,
+) -> np.ndarray:
     """Pooling operation performed on the last axis.
 
     Arguments
     ---------
-    data: symjax.tensor or np.ndarray
+    x: :class:`numpy.ndarray`
         The input data to pool.
-
-    Keyword arguments
-    -----------------
-    reduce_type: str
-        The reducing operation (default: avg).
+    reduce_type: callable, optional
+        The reducing operation (e.g. :func:`numpy.mean()`). If None, no
+        operation is performed.
 
     Returns
     -------
-    data_pooled: symjax.tensor
+    pooled: :class:`numpy.ndarray`
         The data pooled with same shape of input data minus last dimension.
     """
     if reduce_type is None:
         return x
     else:
         return reduce_type(x, axis=-1)
-    # if reduce_function == "avg":
-    #     return x.mean(axis=-1)
-    # if reduce_function == "max":
-    #     return x.max(axis=-1)
-    # if reduce_function == "med":
-    #     return np.median(x, axis=-1)
-    # if reduce_function is None:
-    #     return x
-
-
-def reshape_features(features, net):
-    """Extract features from vector features in a single window."""
-    # Extract dimensions
-    n_filters_per_bank = [bank.shape[0] for bank in net.banks]
-    n_features_per_layer = np.cumprod(n_filters_per_bank)
-    n_features_per_channel = n_features_per_layer.sum()
-    n_channels = features.shape[0] // n_features_per_channel
-
-    # Loop over layers
-    reshaped_features = list()
-    start = 0
-    for layer, n_features in enumerate(n_features_per_layer):
-        end = start + n_channels * n_features
-        feature = features[start:end]
-        feature = feature.reshape(n_channels, *n_filters_per_bank[: layer + 1])
-        reshaped_features.append(feature)
-        start = end
-    return reshaped_features
-
-
-def normalize_features(features):
-    """Normalized higher-order scattering coefficients."""
-    n_layers = len(features)
-    for layer in range(n_layers - 1):
-        for channel in range(features[0].shape[0]):
-            features[layer + 1][channel] /= (
-                features[layer][channel][:, None] + 1e-5
-            )
-            # THIS IS FOR TESTING FULL NORM
-            # for index, feature in enumerate(features[layer + 1][channel].T):
-            #     features[layer + 1][channel][:, index] = (
-            #         feature - feature.min()
-            #     ) / (feature.max() - feature.min())
-
-            # FULL NORM WITH SUM (PROBA)
-            for index, _ in enumerate(features[layer + 1][channel].T):
-                features[layer + 1][channel][:, index] /= np.sqrt(
-                    features[layer + 1][channel][:, index].sum()
-                )
-
-    return features
-
-
-def vectorize_features(features):
-    """Extract features from vector features in a single window."""
-    return np.hstack([f.reshape(-1) for f in features])

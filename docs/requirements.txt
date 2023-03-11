@@ -4,5 +4,8 @@ nbsphinx
 ipython
 jupyter
 pygments
+sphinx_autoapi
+sphinx_gallery
+sphinx_favicon
+sphinx_design
 pydata_sphinx_theme
-sphinx-autoapi

@@ -1,30 +1,41 @@
 """Wavelet class and functions.
 
-Copyright (C) 2023 Léonard Seydoux
+.. dropdown:: Terms of use
 
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
+    .. code-block:: text
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+        Copyright (C) 2023 Léonard Seydoux.
 
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <https://www.gnu.org/licenses/>.
+        This program is free software: you can redistribute it and/or modify it
+        under the terms of the GNU General Public License as published by the
+        Free Software Foundation, either version 3 of the License, or (at your
+        option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+        General Public License for more details.
+
+        You should have received a copy of the GNU General Public License along
+        with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import typing as T
+
 try:
-    import cupy as xp
-except:
+    import cupy as xp  # type: ignore
+except ImportError:
     import numpy as xp
+import numpy as np
 
-from scipy.signal import tukey
+from scipy.signal.windows import tukey
 
 
-def gaussian_window(x, width):
-    """Gaussian window.
+def gaussian_window(
+    x: xp.ndarray,
+    width: T.Union[float, T.Sequence[float], xp.ndarray],
+) -> xp.ndarray:
+    """Gaussian function.
 
     This function can generate a bank of windows at once if the width
     argument is a vector (and/or amplitude). In this case, it should have
@@ -32,8 +43,8 @@ def gaussian_window(x, width):
 
     Parameters
     ----------
-    x : :class:`T.ndarray` or np.ndarray
-        Input variable (in the same units than the width).
+    x : :class:`numpy.ndarray` or :class:`cupy.ndarray`
+        Input variable, in the same units than the width.
     width : float or np.ndarray
         Window width (in the same units than the input variable). If an array
         is provided, the function returns as many windows as the number of
@@ -44,7 +55,7 @@ def gaussian_window(x, width):
 
     Returns
     -------
-    :class:`T.ndarray`
+    Same type as ``x``.
         The Gaussian window in the time domain. If the width (and possibly
         amplitude) argument is a vector, the function returns a matrix with
         shape (len(width), len(x)).
@@ -59,41 +70,36 @@ def gaussian_window(x, width):
     return xp.exp(-((x / width) ** 2))
 
 
-def complex_morlet(x, center, width):
+def complex_morlet(
+    x: xp.ndarray,
+    center: T.Union[float, T.Sequence[float], xp.ndarray],
+    width: T.Union[float, T.Sequence[float], xp.ndarray],
+) -> xp.ndarray:
     """Complex Morlet wavelet.
 
-    The complex Morlet wavelet is a complex plane wave modulated by a
-    Gaussian window. The oscillatory frequency of the plane wave is the
-    center frequency, and the temporal width of the Gaussian is the width
-    argument.
+    The complex Morlet wavelet is a complex plane wave modulated by a Gaussian
+    window. The oscillatory frequency of the plane wave is the center frequency,
+    and the temporal width of the Gaussian is the width argument.
 
     This function can generate a filter bank at once if the width and center
-    arguments are vectors of the same size. In this case, they should have a
-    new axis with respect to the time vector to allow for outer product.
+    arguments are vectors of the same size. In this case, they should have a new
+    axis with respect to the time vector to allow for outer product.
 
     Arguments
     ---------
-    x: :class:`T.ndarray` or np.ndarray
+    x: :class:`numpy.ndarray` or :class:`cupy.ndarray`
         Time vector in seconds.
-
-    width: float or :class:`T.ndarray` or np.ndarray
+    width: float or :class:`numpy.ndarray` or :class:`cupy.ndarray`.
         Temporal signal width in seconds.
-
-    center: float or :class:`T.ndarray` or np.ndarray
-        Center frequency in hertz.
-
-    Keyword arguments
-    -----------------
-    amplitude: float (optional)
-        Wavelet normalization (default 1). If amplitude is a vector, it should
-        have the same dimension than width (and center).
+    center: float or :class:`numpy.ndarray` or :class:`cupy.ndarray`.
+        Center frequency in Hertz.
 
     Returns
     -------
-    filter: :class:`T.ndarray`
+    Same type as ``x``.
         The complex Mortlet wavelet in the time domain. If the center and width
-        (and possibly amplitude) arguments are vectors, the function returns
-        a matrix with shape (len(width), len(x)).
+        (and possibly amplitude) arguments are vectors, the function returns a
+        matrix with shape ``(len(width), len(x))``.
     """
     # turn parameters into a numpy arrays for dimension check
     x = xp.array(x)
@@ -168,25 +174,37 @@ class ComplexMorletBank:
         else:
             self.taper = xp.array(tukey(bins, alpha=taper_alpha))
 
-    def transform(self, sample):
-        """Compute the scalogram for a given sample.
+    def __repr__(self) -> str:
+        """Representation of the filter bank."""
+        return (
+            f"ComplexMorletBank(bins={self.bins}, octaves={self.octaves}, "
+            f"resolution={self.resolution}, quality={self.quality}, "
+            f"sampling_rate={self.sampling_rate}, len={len(self)})"
+        )
+
+    def __len__(self) -> int:
+        """Length of the filter bank."""
+        return self.octaves * self.resolution
+
+    def transform(self, segment: xp.ndarray) -> np.ndarray:
+        """Compute the scalogram for a given segment.
 
         Parameters
         ----------
-        sample: np.ndarray
-            The sample to be transformed of shape `(..., channels, bins)`. The
+        segment: :class:`numpy.ndarray`
+            The segment to be transformed of shape ``(..., channels, bins)``. The
             number of bins should be the same as the number of bins of the
             filter bank.
 
         Returns
         -------
-        scalogram: np.ndarray
+        scalogram: :class:`numpy.ndarray`
             The scalograms for all channels with shape (the ellipsis stands for
             unknown number of input dimensions)
             `n_channels, ..., n_filters, n_bins`.
         """
-        sample = xp.fft.fft(xp.array(sample) * xp.array(self.taper))
-        convolved = sample[..., None, :] * xp.array(self.spectra)
+        segment = xp.fft.fft(xp.array(segment) * xp.array(self.taper))
+        convolved = segment[..., None, :] * xp.array(self.spectra)
         scalogram = xp.fft.fftshift(xp.fft.ifft(convolved), axes=-1)
         if xp.__name__ == "cupy":
             return xp.asnumpy(scalogram)
@@ -194,7 +212,7 @@ class ComplexMorletBank:
             return xp.abs(scalogram)
 
     @property
-    def times(self):
+    def times(self) -> np.ndarray:
         """Wavelet bank symmetric time vector in seconds."""
         duration = self.bins / self.sampling_rate
         if xp.__name__ == "cupy":
@@ -203,25 +221,25 @@ class ComplexMorletBank:
             return xp.linspace(-0.5, 0.5, num=self.bins) * duration
 
     @property
-    def frequencies(self):
-        """Wavelet bank frequency vector in hertz."""
+    def frequencies(self) -> np.ndarray:
+        """Wavelet bank frequency vector in Hertz."""
         if xp.__name__ == "cupy":
             return xp.asnumpy(xp.linspace(0, self.sampling_rate, self.bins))
         else:
             return xp.linspace(0, self.sampling_rate, self.bins)
 
     @property
-    def nyquist(self):
-        """Wavelet bank frequency vector in hertz."""
+    def nyquist(self) -> float:
+        """Nyqyust frequency in Hertz."""
         return self.sampling_rate / 2
 
     @property
-    def shape(self):
+    def shape(self) -> tuple:
         """Filter bank total number of filters."""
-        return self.octaves * self.resolution, self.bins
+        return len(self), self.bins
 
     @property
-    def ratios(self):
+    def ratios(self) -> np.ndarray:
         """Wavelet bank ratios."""
         ratios = xp.linspace(self.octaves, 0.0, self.shape[0], endpoint=False)
         if xp.__name__ == "cupy":
@@ -230,7 +248,7 @@ class ComplexMorletBank:
             return -ratios[::-1]
 
     @property
-    def scales(self):
+    def scales(self) -> np.ndarray:
         """Wavelet bank scaling factors."""
         if xp.__name__ == "cupy":
             return xp.asnumpy(2**self.ratios)
@@ -238,7 +256,7 @@ class ComplexMorletBank:
             return 2**self.ratios
 
     @property
-    def centers(self):
+    def centers(self) -> np.ndarray:
         """Wavelet bank center frequencies."""
         if xp.__name__ == "cupy":
             return xp.asnumpy(self.scales * self.nyquist)
@@ -246,7 +264,7 @@ class ComplexMorletBank:
             return self.scales * self.nyquist
 
     @property
-    def widths(self):
+    def widths(self) -> np.ndarray:
         """Wavelet bank temporal widths."""
         if xp.__name__ == "cupy":
             return xp.asnumpy(self.quality / self.centers)
