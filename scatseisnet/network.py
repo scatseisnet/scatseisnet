@@ -19,6 +19,8 @@ and pooling operations.
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import typing as T
+
 import numpy as np
 
 from .operation import pool
@@ -55,7 +57,12 @@ class ScatteringNetwork:
         Input data sampling rate in Hertz.
     """
 
-    def __init__(self, layer_kwargs, bins=128, sampling_rate=1.0):
+    def __init__(
+        self,
+        *layer_kwargs: dict,
+        bins: int = 128,
+        sampling_rate: float = 1.0,
+    ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
         self.banks = [
@@ -63,7 +70,13 @@ class ScatteringNetwork:
             for kw in layer_kwargs
         ]
 
-    def transform_sample(self, sample, reduce_type=None):
+    def __len__(self) -> int:
+        """Return the number of layers of the scattering network."""
+        return len(self.banks)
+
+    def transform_sample(
+        self, sample, reduce_type: T.Union[T.Callable, None] = None
+    ) -> list:
         """Scattering network transformation.
 
         This function transforms a single sample with the scattering network.
@@ -121,7 +134,9 @@ class ScatteringNetwork:
 
         return output
 
-    def transform(self, samples, reduce_type=None):
+    def transform(
+        self, samples, reduce_type: T.Union[T.Callable, None] = None
+    ) -> list:
         """Transform a set of samples.
 
         This function is a wrapper to loop over a series of samples with the
@@ -180,7 +195,7 @@ class ScatteringNetwork:
         return [np.array(feature) for feature in features]
 
     @property
-    def depth(self):
+    def depth(self) -> int:
         """Network depth or number of layers. This property returns the number
         of layers of the scattering network. It is equivalent to the length of
         the :attr:`banks` attribute.

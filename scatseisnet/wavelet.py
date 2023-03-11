@@ -118,12 +118,12 @@ class ComplexMorletBank:
 
     def __init__(
         self,
-        bins,
-        octaves=8,
-        resolution=1,
-        quality=4,
+        bins: int,
+        octaves: int = 8,
+        resolution: int = 1,
+        quality: float = 4.0,
         taper_alpha=None,
-        sampling_rate=1,
+        sampling_rate: float = 1.0,
     ):
         """Filter bank creation.
 

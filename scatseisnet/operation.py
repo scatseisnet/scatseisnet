@@ -6,6 +6,8 @@ Email: leonard.seydoux@univ-grenoble-alpes.fr
 Date: May, 2021
 """
 
+import typing as T
+
 import numpy as np
 
 
@@ -56,7 +58,7 @@ def segmentize(x, window_size, stride=None):
     return np.array([x for x in segment(x, window_size, stride)])
 
 
-def pool(x, reduce_function="max"):
+def pool(x, reduce_type: T.Union[T.Callable, None] = None):
     """Pooling operation performed on the last axis.
 
     Arguments
@@ -74,15 +76,18 @@ def pool(x, reduce_function="max"):
     data_pooled: symjax.tensor
         The data pooled with same shape of input data minus last dimension.
     """
-
-    if reduce_function == "avg":
-        return x.mean(axis=-1)
-    if reduce_function == "max":
-        return x.max(axis=-1)
-    if reduce_function == "med":
-        return np.median(x, axis=-1)
-    if reduce_function is None:
+    if reduce_type is None:
         return x
+    else:
+        return reduce_type(x, axis=-1)
+    # if reduce_function == "avg":
+    #     return x.mean(axis=-1)
+    # if reduce_function == "max":
+    #     return x.max(axis=-1)
+    # if reduce_function == "med":
+    #     return np.median(x, axis=-1)
+    # if reduce_function is None:
+    #     return x
 
 
 def reshape_features(features, net):
