@@ -87,7 +87,6 @@ Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/).
 
 ## To-do's
 
-- [x] add a license --> pypi release
-- [ ] update tutorial 4, solve question around ignoring 2nd-order coefficients with f2>f1
-- [ ] include a tutorial about clustering
-- [ ] unsync gitlab
+- [ ] Create a pip release
+- [ ] Ignore 2nd-order coefficients with f2>f1
+- [ ] Include a tutorial about clustering
