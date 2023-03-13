@@ -24,7 +24,7 @@ and [René Steinmann](https://github.com/ReneSteinmann).
 Any contributions are very welcomed.
 
 This work was supported by the European Advanced Grant [F-IMAGE](https://f-image.osug.fr/?lang=en) (ERC PE10,
-ERC-2016-ADG) and by the Multidisciplinary Institute of Artificial Intelligence
+ERC-2016-ADG) and by the [Multidisciplinary Institute of Artificial Intelligence](https://miai.univ-grenoble-alpes.fr/)
 (MIAI) at the University of Grenoble Alpes.
 
 > __Scatseisnet: a toolbox for scattering networks in seismology__\
