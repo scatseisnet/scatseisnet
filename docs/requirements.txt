@@ -9,3 +9,4 @@ sphinx_gallery
 sphinx_favicon
 sphinx_design
 pydata_sphinx_theme
+numpydoc
