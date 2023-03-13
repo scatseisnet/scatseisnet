@@ -22,7 +22,7 @@ Contents
    :maxdepth: 2
 
    guide
-   notebooks
+   tutorials
 
 About
 -----
@@ -34,7 +34,7 @@ neural network with wavelet filters as convolutional layers.
 This package was written and documented by Léonard Seydoux and René Steinmann.
 The core of the package and docstrings was written by Léonard Seydoux, the
 documentation was generated using ReadTheDocs and the tutorials were written
-by René Steinmann and Léonard Seydoux. The notebooks are a simplified product of the papers published by René Steinmann.
+by René Steinmann and Léonard Seydoux. The tutorial notebooks are a simplified product of the papers published by René Steinmann.
 The repository is hosted on `GitHub <https://github.com/scatseisnet/scatseisnet>`_ and the documentation is available on `ReadTheDocs <https://scatseisnet.readthedocs.io>`_.
 
 This work was supported by the `European Advanced Grant F-IMAGE <https://f-image.osug.fr/?lang=en>`_ (ERC PE10, ERC-2016-ADG) and by the `Multidisciplinary Institute of Artificial Intelligence <https://miai.univ-grenoble-alpes.fr/>`_ (MIAI) at the University of Grenoble Alpes.

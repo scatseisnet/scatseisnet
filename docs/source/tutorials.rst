@@ -12,9 +12,9 @@ These series of notebook-based tutorials are designed to introduce the reader to
 .. toctree::
    :maxdepth: 2
 
-   notebooks/1_scattering_network_design
-   notebooks/2_scattering_transform
-   notebooks/3_dimensionality_reduction
-   notebooks/4_weights_and_reconstruction
-   notebooks/5_clustering
+   tutorials/1_scattering_network_design
+   tutorials/2_scattering_transform
+   tutorials/3_dimensionality_reduction
+   tutorials/4_weights_and_reconstruction
+   tutorials/5_clustering
    
