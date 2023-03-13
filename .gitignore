@@ -76,7 +76,7 @@ docs/_build/
 target/
 
 # Jupyter Notebook
-.ipynb_checkpoints
+**/.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -137,8 +137,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Remove data
-**/*.npz
-**/*.pickle
-.github/
+# Data files
+**/example/
+
+# vs-code related
 .vscode/
