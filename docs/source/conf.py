@@ -87,6 +87,3 @@ html_logo = "_static/logo_scatseisnet_notext.png"
 
 # Language
 language = "en"
-
-# Options for EPUB output
-epub_show_urls = "footnote"
