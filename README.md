@@ -27,8 +27,8 @@ This work was supported by the European Advanced Grant [F-IMAGE](https://f-image
 ERC-2016-ADG) and by the [Multidisciplinary Institute of Artificial Intelligence](https://miai.univ-grenoble-alpes.fr/)
 (MIAI) at the University of Grenoble Alpes.
 
-> __Scatseisnet: a toolbox for scattering networks in seismology__\
-> Copyright ©️ 2023 Léonard Seydoux and René Steinmann
+> Scatseisnet: a toolbox for scattering networks in seismology\
+> __Copyright ©️ 2023 Léonard Seydoux and René Steinmann__
 >
 > This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
