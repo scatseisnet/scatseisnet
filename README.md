@@ -23,7 +23,7 @@ This package was written and documented by [Léonard Seydoux](https://github.com
 and [René Steinmann](https://github.com/ReneSteinmann).
 Any contributions are very welcomed.
 
-This work was supported by the European Advanced Grant _F-IMAGE_ (ERC PE10,
+This work was supported by the European Advanced Grant [F-IMAGE](https://f-image.osug.fr/?lang=en) (ERC PE10,
 ERC-2016-ADG) and by the Multidisciplinary Institute of Artificial Intelligence
 (MIAI) at the University of Grenoble Alpes.
 
