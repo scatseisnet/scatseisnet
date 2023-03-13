@@ -6,9 +6,4 @@ setup(
     packages=find_packages(),
     python_requires=">=3.6, <4",
     install_requires=["matplotlib", "numpy", "obspy", "scikit-learn"],
-    # entry_points={
-    #     "console_scripts": [
-    #         "scatseisnet = scatseisnet.cli.cli:main",
-    #     ],
-    # },
 )
