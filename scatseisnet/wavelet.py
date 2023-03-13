@@ -1,5 +1,7 @@
 """Wavelet class and functions.
 
+This module contains the wavelet class and functions to generate wavelets.
+
 .. dropdown:: Terms of use
 
     .. code-block:: text
