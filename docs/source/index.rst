@@ -14,6 +14,16 @@ Welcome to **scatseisnet**'s documentation!
 
 |
 
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   guide
+   notebooks
+
 About
 -----
 
@@ -28,7 +38,7 @@ by René Steinmann and Léonard Seydoux. The notebooks are a simplified product 
 The repository is hosted on `GitHub <https://github.com/scatseisnet/scatseisnet>`_ and the documentation is available on `ReadTheDocs <https://scatseisnet.readthedocs.io>`_.
 
 This work was supported by the `European Advanced Grant F-IMAGE <https://f-image.osug.fr/?lang=en>`_ (ERC PE10, ERC-2016-ADG) and by the `Multidisciplinary Institute of Artificial Intelligence <https://miai.univ-grenoble-alpes.fr/>`_ (MIAI) at the University of Grenoble Alpes.
-If you use this package for your own scientific output, please cite one or more of the papers mentionned in the :ref:`References` section.
+If you use this package for your own scientific output, please cite one or more of the papers mentionned in the References section below.
 
 .. important::
 
@@ -49,8 +59,13 @@ the Free Software Foundation, either version 3 of the License, or
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program. If not, see https://www.gnu.org/licenses.
+Please use the following dropdown menu to see the full terms of use, or directrly have a look at the LICENCE file in the root directory of the repository.
+
+.. dropdown:: Full terms of use
+   :color: primary
+
+   .. include:: ../../LICENCE
+      :literal:
 
 Installation
 ------------
@@ -78,25 +93,6 @@ with the following command.
 
    pip install cupy
 
-
-Purpose and philosophy of this Package
---------------------------------------
-
-In the recent years, we worked on a scattering network for seismic time series data, mainly for data exploration task involving dimensionality reduction and clustering.
-We've seen an increasing interest in the seismological community for this kind of approach, and decided to make the code available to the community. 
-This package delivers the network instance and in the tutorials we introduce the scattering network together with some data exploration applications.
-Please note that the task and data at hand drive the choice of the exact design of the scattering network and the tools used for data exploration.
-The following papers show some possible applications and we hope that they can inspire you for your specific use case. 
-If you use this package for your own scientific output, please cite one or more
-of the following papers.
-
-Contents
---------
-
-.. toctree::
-   :maxdepth: 2
-
-   notebooks
 
 References
 ----------

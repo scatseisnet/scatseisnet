@@ -28,7 +28,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "sphinx.ext.autosectionlabel" "sphinx_gallery.load_style",
+    "sphinx_gallery.load_style",
     "sphinx_favicon",
     "sphinx_design",
     "autoapi.extension",
