@@ -21,9 +21,7 @@ around April 2023.
 
 This package was written and documented by [Léonard Seydoux](https://github.com/leonard-seydoux) 
 and [René Steinmann](https://github.com/ReneSteinmann).
-The notebooks were written by Leonard Seydoux and René
-Steinmann, and are a simplified product of the papers published by René
-Steinmann et al. and Seydoux et al. listed in the documentation. 
+Any contributions are very welcomed.
 
 This work was supported by the European Advanced Grant _F-IMAGE_ (ERC PE10,
 ERC-2016-ADG) and by the Multidisciplinary Institute of Artificial Intelligence
