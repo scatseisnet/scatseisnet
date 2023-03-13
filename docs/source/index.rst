@@ -14,24 +14,28 @@ Welcome to **scatseisnet**'s documentation!
 
 |
 
-The **scatseisnet** library contains programs to transform time series into scattering
-coefficients with a scattering network. The scattering network is a deep
-neural network with wavelet filters as convolutional layers. The code repository is hosted on github at: https://github.com/scatseisnet/scatseisnet
-
 About
 -----
+
+The **scatseisnet** library contains programs to transform time series into scattering
+coefficients with a scattering network. The scattering network is a deep
+neural network with wavelet filters as convolutional layers. 
 
 This package was written and documented by Léonard Seydoux and René Steinmann.
 The core of the package and docstrings was written by Léonard Seydoux, the
 documentation was generated using ReadTheDocs and the tutorials were written
 by René Steinmann and Léonard Seydoux. The notebooks are a simplified product of the papers published by René Steinmann.
+The repository is hosted on `GitHub <https://github.com/scatseisnet/scatseisnet>`_ and the documentation is available on `ReadTheDocs <https://scatseisnet.readthedocs.io>`_.
 
-This work was supported by the European Advanced Grant *F-IMAGE* (ERC PE10,
-ERC-2016-ADG) and by the Multidisciplinary Institute of Artificial Intelligence
-(MIAI) at the University of Grenoble Alpes.
+This work was supported by the `European Advanced Grant F-IMAGE <https://f-image.osug.fr/?lang=en>`_ (ERC PE10, ERC-2016-ADG) and by the `Multidisciplinary Institute of Artificial Intelligence <https://miai.univ-grenoble-alpes.fr/>`_ (MIAI) at the University of Grenoble Alpes.
+If you use this package for your own scientific output, please cite one or more of the papers mentionned in the :ref:`References` section.
 
-The **scatseisnet** package is under construction. A target release date will be
-around April 2023.
+.. important::
+
+   This project is still in development. The API is not stable and may change
+   without notice. Once a stable version is released, the API will be
+   considered stable and will not change without a major version bump.
+   A target release date will be around April 2023.
 
 License
 -------
@@ -73,12 +77,6 @@ with the following command.
    :caption: GPU usage
 
    pip install cupy
-
-.. important::
-
-   This project is still in development. The API is not stable and may change
-   without notice. Once a stable version is released, the API will be
-   considered stable and will not change without a major version bump.
 
 
 Purpose and philosophy of this Package
