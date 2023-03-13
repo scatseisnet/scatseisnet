@@ -62,7 +62,6 @@ GNU General Public License for more details.
 Please use the following dropdown menu to see the full terms of use, or directrly have a look at the LICENCE file in the root directory of the repository.
 
 .. dropdown:: Full terms of use
-   :color: primary
 
    .. include:: ../../LICENCE
       :literal:
