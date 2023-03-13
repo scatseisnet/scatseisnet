@@ -11,48 +11,36 @@
 
 </div>
 
+## About
+
 This library contains programs to transform time series into scattering
 coefficients with a scattering network. The scattering network is a deep
 neural network with wavelet filters as convolutional layers.
+The __scatseisnet__ package is under construction. A target release date will be
+around April 2023.
 
-## About
-
-### Authors
-
-This package was written and documented by Léonard Seydoux and René Steinmann.
-The core of the package and docstrings was written by Leonard Seydoux, the
-documentation was generated using ReadTheDocs and the tutorials were written
-by René Steinmann. The notebooks were written by Leonard Seydoux and René
-Steinmann, and is a simplified product of the papers published by René
-Steinmann.
-
-### Support
+This package was written and documented by [Léonard Seydoux](https://github.com/leonard-seydoux) 
+and [René Steinmann](https://github.com/ReneSteinmann).
+The notebooks were written by Leonard Seydoux and René
+Steinmann, and are a simplified product of the papers published by René
+Steinmann et al. and Seydoux et al. listed in the documentation. 
 
 This work was supported by the European Advanced Grant _F-IMAGE_ (ERC PE10,
 ERC-2016-ADG) and by the Multidisciplinary Institute of Artificial Intelligence
 (MIAI) at the University of Grenoble Alpes.
 
-### Releases
-
-The __scatseisnet__ package is under construction. A target release date will be
-around April 2023.
-
-### License
-
-__Scatseisnet: a toolbox for scattering networks in seismology__\
-Copyright ©️ 2023 the scatseisnet developers
-
-This program is free software: you can redistribute it and/or modify
+> __Scatseisnet: a toolbox for scattering networks in seismology__\
+> Copyright ©️ 2023 Léonard Seydoux and René Steinmann
+> 
+> This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
+> This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
+> You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 ## Installation
@@ -85,8 +73,3 @@ pip install cupy
 
 Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/). You can find tutorials thererin in the form of notebooks.
 
-## To-do's
-
-- [ ] Create a pip release
-- [ ] Ignore 2nd-order coefficients with f2>f1
-- [ ] Include a tutorial about clustering
