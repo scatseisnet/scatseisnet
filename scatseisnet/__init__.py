@@ -29,8 +29,10 @@ __all__ = [
     "ScatteringNetwork",
     "operation",
     "wavelet",
+    "network",
 ]
 
 from . import wavelet
 from . import operation
+from . import network
 from .network import ScatteringNetwork
