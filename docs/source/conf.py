@@ -66,7 +66,7 @@ html_static_path = [
 html_theme_options = {
     "pygment_light_style": "tango",
     "pygment_dark_style": "monokai",
-    "github_url": "https://github.com/pydata/pydata-sphinx-theme",
+    "github_url": "https://github.com//scatseisnet/scatseisnet",
     "announcement": "This is a beta release of the scatseisnet package. Please report any issues you find <a href=https://github.com/scatseisnet/scatseisnet/issues>in the GitHub repository</a>.",
 }
 
