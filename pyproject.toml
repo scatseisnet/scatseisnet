@@ -10,4 +10,31 @@ authors = [
 ]
 description = "Scattering network for seismology."
 name = "scatseisnet"
-version = "0.2.0"
+version = "0.2.1"
+readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.7",
+	"Programming Language :: Python :: 3.8",
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Intended Audience :: Developers",
+	"Intended Audience :: Science/Research",
+	"Topic :: Scientific/Engineering",
+	"Operating System :: OS Independent",
+]
+license = {file = "LICENCE"}
+requires-python = ">=3.7"
+dependencies = [
+    "numpy >=1.21.6",
+    "scipy >=1.7.3",
+]
+
+[project.urls]
+Documentation = "https://scatseisnet.readthedocs.io/"
+Source = "https://github.com/scatseisnet/scatseisnet"
+
+[tool.flit.sdist]
+exclude = ["./docs"]

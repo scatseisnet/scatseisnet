@@ -4,8 +4,8 @@
 
 <img src=docs/source/_static/logo_scatseisnet.png width=250px/>
 
-[![Python Version](https://img.shields.io/pypi/pyversions/covseisnet)](https://pypi.org/project/covseisnet/)
-[![PyPI Version](https://img.shields.io/pypi/v/covseisnet.svg)](https://pypi.org/project/covseisnet/)\
+[![Python Version](https://img.shields.io/pypi/pyversions/scatseisnet)](https://pypi.org/project/scatseisnet/)
+[![PyPI Version](https://img.shields.io/pypi/v/scatseisnet.svg)](https://pypi.org/project/scatseisnet/)\
 [![Code style:black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![GitHub last commit](https://img.shields.io/github/last-commit/scatseisnet/scatseisnet)
 

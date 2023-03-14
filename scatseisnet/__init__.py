@@ -36,3 +36,6 @@ from . import wavelet
 from . import operation
 from . import network
 from .network import ScatteringNetwork
+from pkg_resources import get_distribution
+
+__version__ = get_distribution("scatseisnet").version
