@@ -43,18 +43,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 ## Installation
 
-We are planning to release the package on pypi, for now you can install the
-package with the following command. Please consider installing the package at a
-location where you have write access, and which should not change over time.
-You may also want to run the command in a virtual environment (e.g. conda) for a
-clean installation.
+The package is available from the PyPI repository. To install using pip, execute the following line:
 
 ### CPU-only installation
 
 ```bash
-git clone https://github.com/scatseisnet/scatseisnet.git 
-cd scatseisnet
-pip install -e .
+pip install scatseisnet
 ```
 
 ### GPU usage

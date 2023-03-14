@@ -69,19 +69,13 @@ Please use the following dropdown menu to see the full terms of use, or directrl
 Installation
 ------------
 
-We are planning to release the package on pypi, for now you can install the
-package with the following command. Please consider installing the package at a
-location where you have write access, and which should not change over time.
-You may also want to run the command in a virtual environment (e.g. conda) for a
-clean installation.
+The package is available from the PyPI repository. To install using pip, execute the following line:
 
 
 .. code-block:: bash
    :caption: CPU-only installation
 
-   git clone https://github.com/scatseisnet/scatseisnet.git 
-   cd scatseisnet
-   pip install -e .
+   pip install scatseisnet
 
 If you want to use a GPU, you need to install the package with the package CuPy.
 The code will try to find it and use it if it is installed. You can install it
