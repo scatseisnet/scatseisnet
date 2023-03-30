@@ -140,9 +140,9 @@ class ScatteringNetwork:
         ...     {"octaves": 8, "resolution": 8},
         ...     {"octaves": 12, "resolution": 1},
         ... ]
-        >>> network = ScatteringNetwork(layer_kwargs)
+        >>> network = ScatteringNetwork(*layer_kwargs)
         >>> segment = np.random.randn(128)
-        >>> scattering_coefficients = network.transform_segment(segment, 'max')
+        >>> scattering_coefficients = network.transform_segment(segment, reduce_type=np.max)
         >>> len(scattering_coefficients)
         2
         >>> scattering_coefficients[0].shape
