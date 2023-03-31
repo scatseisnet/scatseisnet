@@ -35,6 +35,10 @@ output bins, etc.
 import typing as T
 
 import numpy as np
+try:
+    from tqdm import tqdm
+except:
+    tqdm = lambda x: x
 
 from .operation import pool
 from .wavelet import ComplexMorletBank
@@ -74,9 +78,11 @@ class ScatteringNetwork:
         *layer_kwargs: dict,
         bins: int = 128,
         sampling_rate: float = 1.0,
+        verbose: bool = False
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
+        self.verbose = verbose
         self.banks = [
             ComplexMorletBank(bins, sampling_rate=sampling_rate, **kw)
             for kw in layer_kwargs
@@ -218,7 +224,8 @@ class ScatteringNetwork:
         features = [[] for _ in range(len(self))]
 
         # Calculate coefficients
-        for segment in segments:
+        iter = tqdm(segments) if self.verbose else segments
+        for segment in iter:
             scatterings = self.transform_segment(segment, reduce_type)
             for layer_index, scattering in enumerate(scatterings):
                 features[layer_index].append(scattering)
