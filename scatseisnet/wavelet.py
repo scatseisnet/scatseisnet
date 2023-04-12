@@ -209,7 +209,7 @@ class ComplexMorletBank:
         convolved = segment[..., None, :] * xp.array(self.spectra)
         scalogram = xp.fft.fftshift(xp.fft.ifft(convolved), axes=-1)
         if xp.__name__ == "cupy":
-            return xp.asnumpy(scalogram)
+            return np.abs(xp.asnumpy(scalogram))
         else:
             return xp.abs(scalogram)
 
