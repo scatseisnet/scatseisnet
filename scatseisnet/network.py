@@ -35,6 +35,7 @@ output bins, etc.
 import typing as T
 
 import numpy as np
+
 try:
     from tqdm import tqdm
 except:
@@ -78,7 +79,7 @@ class ScatteringNetwork:
         *layer_kwargs: dict,
         bins: int = 128,
         sampling_rate: float = 1.0,
-        verbose: bool = False
+        verbose: bool = False,
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
