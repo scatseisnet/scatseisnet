@@ -35,6 +35,7 @@ output bins, etc.
 import typing as T
 
 import numpy as np
+
 try:
     from tqdm import tqdm
 except:
@@ -78,7 +79,7 @@ class ScatteringNetwork:
         *layer_kwargs: dict,
         bins: int = 128,
         sampling_rate: float = 1.0,
-        verbose: bool = False
+        verbose: bool = False,
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
@@ -154,7 +155,7 @@ class ScatteringNetwork:
         >>> scattering_coefficients[0].shape
         (64,)
         >>> scattering_coefficients[1].shape
-        (64, 24)
+        (64, 12)
         """
         # Initialize the scattering coefficients list
         output = list()
@@ -210,15 +211,15 @@ class ScatteringNetwork:
         ...     {"octaves": 8, "resolution": 8},
         ...     {"octaves": 12, "resolution": 1},
         ... ]
-        >>> network = ScatteringNetwork(layer_kwargs)
+        >>> network = ScatteringNetwork(*layer_kwargs)
         >>> segments = np.random.randn(10, 128)
-        >>> scattering_coefficients = network.transform(segments, 'max')
+        >>> scattering_coefficients = network.transform(segments, np.max)
         >>> len(scattering_coefficients)
         2
         >>> scattering_coefficients[0].shape
         (10, 64)
         >>> scattering_coefficients[1].shape
-        (10, 64, 24)
+        (10, 64, 12)
         """
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
