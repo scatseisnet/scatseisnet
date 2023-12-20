@@ -12,9 +12,10 @@ These series of notebook-based tutorials are designed to introduce the reader to
 .. toctree::
    :maxdepth: 2
 
+   tutorials/0_intro
    tutorials/1_design
    tutorials/2_transformation
    tutorials/3_reduction
    tutorials/4_reconstruction
    tutorials/5_clustering
-   
+   tutorials/6_atlas
