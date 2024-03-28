@@ -173,7 +173,7 @@ class ScatteringNetwork:
             segment = scalogram
 
             # Pool scalogram and append to output
-            output.append(pool(scalogram, reduce_type))
+            output.append(pool(scalogram[..., self.taper == 1], reduce_type))
 
         return output
 
