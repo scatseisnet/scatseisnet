@@ -156,7 +156,10 @@ class ScatteringNetwork:
         (64,)
         >>> scattering_coefficients[1].shape
         (64, 12)
-        """
+        """        
+        # Apply taper
+        segment *= self.taper
+
         # Initialize the scattering coefficients list
         output = list()
 
@@ -177,6 +180,7 @@ class ScatteringNetwork:
     def transform(
         self,
         segments: np.ndarray,
+        taper_alpha=None,
         reduce_type: T.Union[T.Callable, None] = None,
     ) -> list:
         """Transform a set of segments.
@@ -193,6 +197,9 @@ class ScatteringNetwork:
             bins, n_channels)``, where ``bins`` is the number of time samples
             per segment and ``n_channels`` is the number of channels. The number
             of channels can be 1 or more.
+        taper_alpha: float, optional
+            Tapering factor for the time domain. If None, no tapering is
+            applied (default None).
         reduce_type: callable, optional
             The reduction function (e.g. :func:`numpy.mean`). If not defined,
             the function returns the scalogram of each layer of the scattering
@@ -221,6 +228,12 @@ class ScatteringNetwork:
         >>> scattering_coefficients[1].shape
         (10, 64, 12)
         """
+        # Initialize tapering or not
+        if self.taper_alpha is None:
+            self.taper = np.array(np.ones(self.bins))
+        else:
+            self.taper = np.array(tukey(self.bins, alpha=self.taper_alpha))
+        
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
 
