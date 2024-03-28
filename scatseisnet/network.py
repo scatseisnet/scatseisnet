@@ -229,10 +229,10 @@ class ScatteringNetwork:
         (10, 64, 12)
         """
         # Initialize tapering or not
-        if self.taper_alpha is None:
+        if taper_alpha is None:
             self.taper = np.array(np.ones(self.bins))
         else:
-            self.taper = np.array(tukey(self.bins, alpha=self.taper_alpha))
+            self.taper = np.array(tukey(self.bins, alpha=taper_alpha))
         
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
