@@ -130,7 +130,6 @@ class ComplexMorletBank:
         octaves: int = 8,
         resolution: int = 1,
         quality: float = 4.0,
-        taper_alpha=None,
         sampling_rate: float = 1.0,
     ):
         """Filter bank creation.
@@ -149,9 +148,6 @@ class ComplexMorletBank:
             Number of filters per octaves (default 1).
         quality: float, optional
             Filter bank quality factor (constant, default 4).
-        taper_alpha: float, optional
-            Tapering factor for the time domain. If None, no tapering is
-            applied (default None).
         sampling_rate: float, optional
             Sampling rate of the signal (default 1).
         """
@@ -169,13 +165,7 @@ class ComplexMorletBank:
 
         # Size attributes
         self.size = self.wavelets.shape[0]
-
-        # Tapering or not
-        if taper_alpha is None:
-            self.taper = xp.array(xp.ones(bins))
-        else:
-            self.taper = xp.array(tukey(bins, alpha=taper_alpha))
-
+        
     def __repr__(self) -> str:
         """Representation of the filter bank."""
         return (
@@ -205,7 +195,7 @@ class ComplexMorletBank:
             unknown number of input dimensions)
             `n_channels, ..., n_filters, n_bins`.
         """
-        segment = xp.fft.fft(xp.array(segment) * xp.array(self.taper))
+        segment = xp.fft.fft(xp.array(segment))
         convolved = segment[..., None, :] * xp.array(self.spectra)
         scalogram = xp.fft.fftshift(xp.fft.ifft(convolved), axes=-1)
         if xp.__name__ == "cupy":
