@@ -130,6 +130,7 @@ class ComplexMorletBank:
         octaves: int = 8,
         resolution: int = 1,
         quality: float = 4.0,
+        normalize_wavelet=None,
         sampling_rate: float = 1.0,
     ):
         """Filter bank creation.
@@ -159,6 +160,19 @@ class ComplexMorletBank:
 
         # Generate the filter bank
         self.wavelets = complex_morlet(self.times, self.centers, self.widths)
+
+        # Normalize filter bank or not
+        if normalize_wavelet is not None:
+            if normalize_wavelet == 'L1':
+                self.norm_factor = xp.abs(self.wavelets).sum(axis=1)[:, xp.newaxis]
+            elif normalize_wavelet == 'L2':
+                self.norm_factor = xp.sqrt((xp.abs(self.wavelets)**2).sum(axis=1))[:, xp.newaxis]
+            else:
+                AttributeError(f"'normalize_wavelet' has no attribute {normalize_wavelet}",
+                               "Supported are normalization by the 'L1'- and 'L2'-norm'.")
+
+            # Normalize filter bank
+            self.wavelets /= self.norm_factor
 
         # Obtain the filter bank in the frequency domain
         self.spectra = xp.fft.fft(self.wavelets)
