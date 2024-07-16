@@ -44,6 +44,7 @@ except:
 from .operation import pool
 from .wavelet import ComplexMorletBank
 
+from scipy.signal.windows import tukey
 
 class ScatteringNetwork:
     """Scattering network graph.
