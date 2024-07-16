@@ -30,9 +30,6 @@ except ImportError:
     import numpy as xp
 import numpy as np
 
-from scipy.signal.windows import tukey
-
-
 def gaussian_window(
     x: xp.ndarray,
     width: T.Union[float, T.Sequence[float], xp.ndarray],
