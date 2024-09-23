@@ -46,6 +46,7 @@ from .wavelet import ComplexMorletBank
 
 from scipy.signal.windows import tukey
 
+
 class ScatteringNetwork:
     """Scattering network graph.
 
@@ -157,7 +158,7 @@ class ScatteringNetwork:
         (64,)
         >>> scattering_coefficients[1].shape
         (64, 12)
-        """        
+        """
         # Apply taper
         segment *= self.taper
 
@@ -174,7 +175,7 @@ class ScatteringNetwork:
             segment = scalogram
 
             # Pool scalogram and append to output
-            output.append(pool(scalogram[..., self.taper == 1], reduce_type))
+            output.append(pool(scalogram, reduce_type))
 
         return output
 
@@ -234,7 +235,7 @@ class ScatteringNetwork:
             self.taper = np.array(np.ones(self.bins))
         else:
             self.taper = np.array(tukey(self.bins, alpha=taper_alpha))
-        
+
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
 
