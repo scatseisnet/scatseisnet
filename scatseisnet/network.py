@@ -82,10 +82,12 @@ class ScatteringNetwork:
         bins: int = 128,
         sampling_rate: float = 1.0,
         verbose: bool = False,
+        taper_alpha: float = None,
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
         self.verbose = verbose
+        self.taper_alpha = taper_alpha
         self.banks = [
             ComplexMorletBank(bins, sampling_rate=sampling_rate, **kw)
             for kw in layer_kwargs
@@ -175,14 +177,13 @@ class ScatteringNetwork:
             segment = scalogram
 
             # Pool scalogram and append to output
-            output.append(pool(scalogram[..., self.taper == 1], reduce_type))
+            output.append(pool(scalogram, reduce_type))
 
         return output
 
     def transform(
         self,
         segments: np.ndarray,
-        taper_alpha=None,
         reduce_type: T.Union[T.Callable, None] = None,
     ) -> list:
         """Transform a set of segments.
@@ -230,11 +231,8 @@ class ScatteringNetwork:
         >>> scattering_coefficients[1].shape
         (10, 64, 12)
         """
+        
         # Initialize tapering or not
-        if taper_alpha is None:
-            self.taper = np.array(np.ones(self.bins))
-        else:
-            self.taper = np.array(tukey(self.bins, alpha=taper_alpha))
 
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
@@ -247,3 +245,12 @@ class ScatteringNetwork:
                 features[layer_index].append(scattering)
 
         return [np.array(feature) for feature in features]
+    
+    @property
+    def taper(self):
+        if self.taper_alpha is None:
+            return np.array(np.ones(self.bins))
+        else:
+            return np.array(tukey(self.bins, alpha=self.taper_alpha))
+        
+# EOF
