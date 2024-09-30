@@ -84,14 +84,13 @@ class ScatteringNetwork:
         sampling_rate: float = 1.0,
         verbose: bool = False,
         taper_alpha: float = None,
-        kymatp_filterbankbanks: str = True,
+        kymatio_filterbankbanks: str = True,
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
         self.verbose = verbose
         self.taper_alpha = taper_alpha
-        if kymatp_filterbankbanks:
-             
+        if kymatio_filterbankbanks:
             self.banks = [
                 ComplexMorletBank_new(bins, sampling_rate=sampling_rate, **kw)
                 for kw in layer_kwargs
