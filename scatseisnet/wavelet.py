@@ -524,10 +524,10 @@ class ComplexMorletBank_new:
         bins: int,
         octaves: int = 8,
         quality: float = 4.0,
-        resolution: int = 1,
+        resolution: int = np.sqrt(0.5),
         max_frequency: float = 0.35,
         sampling_rate: float = 1.0,
-        normalization: str = "l1", 
+        normalization: str = "l1",
     ):
         """Filter bank creation.
 
@@ -557,8 +557,11 @@ class ComplexMorletBank_new:
         self.resolution = resolution
 
         # Generate the filter bank
-
-        self.spectra = xp.asarray([morlet_1d(self.bins, xi, sig, normalize= normalization, P_max=10, eps=1e-10) for xi, sig in zip(self.center_normalized, self.widths)])
+        self.spectra = xp.asarray(
+            [morlet_1d(self.bins, xi, sig, normalize=normalization, 
+                       P_max=10, eps=1e-10) 
+                       for xi, sig in zip(self.center_normalized, self.widths)
+                       ])
 
         self.wavelets = xp.fft.ifftshift(xp.fft.ifft(self.spectra, axis = -1), axes = -1)
 
@@ -645,7 +648,7 @@ class ComplexMorletBank_new:
             return xp.asnumpy(self.scales * self.nyquist)
         else:
             return self.max_frequency * self.scales * self.sampling_rate
-    
+        
     @property
     def center_normalized(self) -> np.ndarray:
         """Wavelet bank center frequencies."""
@@ -660,8 +663,8 @@ class ComplexMorletBank_new:
         if xp.__name__ == "cupy":
             return xp.asnumpy(self.quality / self.centers)
         else:
-            return xp.array([self.compute_sigma_psi(m, self.quality) for m in self.center_normalized])
-
+            return xp.array([self.compute_sigma_psi(m, self.quality, r = self.resolution) for m in self.center_normalized])
+    
     def compute_sigma_psi(self, xi, Q, r=xp.sqrt(0.5)):
         """ Computes the frequential width sigma for a Morlet filter of frequency xi
         belonging to a family with Q wavelets.
@@ -675,5 +678,13 @@ class ComplexMorletBank_new:
         term1 = (1 - factor) / (1 + factor)
         term2 = 1. / xp.sqrt(2 * xp.log(1. / r))
         return xi * term1 * term2
-
- 
+    
+    @property
+    def ratios(self) -> np.ndarray:
+        """Wavelet bank ratios."""
+        #ratios = xp.linspace(self.octaves, 0.0, self.shape[0], endpoint=False)
+        if xp.__name__ == "cupy":
+            return xp.asnumpy(-self.scales[::-1])
+        else:
+            return np.arange(len(self.scales))
+        

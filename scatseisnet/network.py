@@ -114,7 +114,7 @@ class ScatteringNetwork:
             f"len={len(self)})"
             "\n"
         ) + "\n".join(str(bank) for bank in self.banks)
-
+    
     def transform_segment(
         self,
         segment: np.ndarray,
@@ -251,16 +251,16 @@ class ScatteringNetwork:
                 features[layer_index].append(scattering)
 
         return [np.array(feature) for feature in features]
-    
+
+
     @property
     def taper(self):
         if self.taper_alpha is None:
             return np.array(np.ones(self.bins))
         else:
             return np.array(tukey(self.bins, alpha=self.taper_alpha))
-        
-# EOF
-
+    
+    
     # def padding(self, segment: np.ndarray) -> np.ndarray:
     #     """Pad the segment with zeros to match the network input size.
 
