@@ -32,6 +32,7 @@ output bins, etc.
         with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+
 import typing as T
 
 import numpy as np
@@ -42,7 +43,7 @@ except:
     tqdm = lambda x: x
 
 from .operation import pool
-from .wavelet import ComplexMorletBank
+from .wavelet import ComplexMorletBank, ComplexMorletBank_new
 
 from scipy.signal.windows import tukey
 
@@ -83,15 +84,23 @@ class ScatteringNetwork:
         sampling_rate: float = 1.0,
         verbose: bool = False,
         taper_alpha: float = None,
+        kymatp_filterbankbanks: str = True,
     ) -> None:
         self.sampling_rate = sampling_rate
         self.bins = bins
         self.verbose = verbose
         self.taper_alpha = taper_alpha
-        self.banks = [
-            ComplexMorletBank(bins, sampling_rate=sampling_rate, **kw)
-            for kw in layer_kwargs
-        ]
+        if kymatp_filterbankbanks:
+             
+            self.banks = [
+                ComplexMorletBank_new(bins, sampling_rate=sampling_rate, **kw)
+                for kw in layer_kwargs
+            ]
+        else:
+            self.banks = [
+                ComplexMorletBank(bins, sampling_rate=sampling_rate, **kw)
+                for kw in layer_kwargs
+            ]
 
     def __len__(self) -> int:
         """Number of layers (or depth) of the scattering network."""
@@ -231,8 +240,6 @@ class ScatteringNetwork:
         >>> scattering_coefficients[1].shape
         (10, 64, 12)
         """
-        
-        # Initialize tapering or not
 
         # Initialize the scattering coefficients list
         features = [[] for _ in range(len(self))]
@@ -254,3 +261,36 @@ class ScatteringNetwork:
             return np.array(tukey(self.bins, alpha=self.taper_alpha))
         
 # EOF
+
+    # def padding(self, segment: np.ndarray) -> np.ndarray:
+    #     """Pad the segment with zeros to match the network input size.
+
+    #     Parameters
+    #     ----------
+    #     segment: :class:`numpy.ndarray`
+    #         The segment to be padded of shape ``(bins, n_channels)``.
+
+    #     Returns
+    #     -------
+    #     padded_segment: :class:`numpy.ndarray`
+    #         The padded segment of shape ``(padded_bins, n_channels)``.
+    #     """
+    #     padded_segment = np.zeros((self.bins, segment.shape[-1]))
+    #     padded_segment[: segment.shape[0]] = segment
+    #     return padded_segment
+
+
+    # def unpadding(self, segment: np.ndarray) -> np.ndarray:
+    #     """Remove the padding of the segment.
+
+    #     Parameters
+    #     ----------
+    #     segment: :class:`numpy.ndarray`
+    #         The padded segment of shape ``(padded_bins, n_channels)``.
+
+    #     Returns
+    #     -------
+    #     segment: :class:`numpy.ndarray`
+    #         The unpadded segment of shape ``(bins, n_channels)``.
+    #     """
+    #     return segment[: self.bins]
