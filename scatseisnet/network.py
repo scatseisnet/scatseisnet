@@ -90,6 +90,7 @@ class ScatteringNetwork:
             ComplexMorletBank(bins, sampling_rate=sampling_rate, **kw)
             for kw in layer_kwargs
         ]
+        self.taper = np.array(np.ones(bins))
 
     def __len__(self) -> int:
         """Number of layers (or depth) of the scattering network."""
