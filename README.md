@@ -65,6 +65,12 @@ pip install cupy
 
 Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/). You can find tutorials thererin in the form of notebooks.
 
+## Citation
+
+```
+Seydoux, L. S., Steinmann, R., Gärtner, M., Tong, F., Esfahani, R., & Campillo, M. (2025). Scatseisnet, a Scattering network for seismic data analysis (0.3). Zenodo. https://doi.org/10.5281/zenodo.15110686
+```
+
 ## Contribution guidelines
 
 Thank you for your interest in contributing to this project! Here are some guidelines to help ensure a smooth and successful contribution process. Please read them carefully before contributing. We are happy to answer any questions you may have, and to welcome you as a contributor.
