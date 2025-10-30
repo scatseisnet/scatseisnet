@@ -10,6 +10,11 @@ Welcome to **scatseisnet**'s documentation!
    <p align="center">
       <img src="_images/logo_scatseisnet_anim.png" width=200px
       style="background-color: transparent;"/>
+
+      **Scatseisnet**
+      
+      Scattering network for seismic data analysis.
+
    </p>
 
 |
