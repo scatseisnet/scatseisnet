@@ -16,8 +16,8 @@
 This library contains programs to transform time series into scattering
 coefficients with a scattering network. The scattering network is a deep
 neural network with wavelet filters as convolutional layers.
-The __scatseisnet__ package is under construction. A target release date will be
-around April 2023.
+
+The package supports Python 3.8+ including the latest Python 3.13.
 
 This package was written and documented by [Léonard Seydoux](https://github.com/leonard-seydoux)
 and [René Steinmann](https://github.com/ReneSteinmann).
@@ -63,7 +63,7 @@ pip install cupy
 
 ## Documentation
 
-Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/). You can find tutorials thererin in the form of notebooks.
+Please check the [documentation](https://scatseisnet.github.io/scatseisnet/). You can find tutorials therein in the form of notebooks.
 
 ## Testing
 
