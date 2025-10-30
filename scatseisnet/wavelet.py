@@ -209,10 +209,11 @@ class ComplexMorletBank:
         segment = xp.fft.fft(xp.array(segment))
         convolved = segment[..., None, :] * xp.array(self.spectra)
         scalogram = xp.fft.fftshift(xp.fft.ifft(convolved), axes=-1)
+        scalogram = xp.abs(scalogram)
         if xp.__name__ == "cupy":
-            return np.abs(xp.asnumpy(scalogram))
+            return xp.asnumpy(scalogram)
         else:
-            return xp.abs(scalogram)
+            return scalogram
 
     @property
     def times(self) -> np.ndarray:
