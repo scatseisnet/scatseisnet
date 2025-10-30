@@ -50,3 +50,10 @@ Source = "https://github.com/scatseisnet/scatseisnet"
 
 [tool.flit.sdist]
 exclude = ["./docs"]
+
+[tool.uv.sources]
+
+[tool.uv]
+# Specify which extras are included in the default lock
+# Empty list means only core dependencies
+default-groups = []

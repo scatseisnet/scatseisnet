@@ -12,7 +12,7 @@ This module contains the wavelet class and functions to generate wavelets.
         under the terms of the GNU General Public License as published by the
         Free Software Foundation, either version 3 of the License, or (at your
         option) any later version.
-        
+
         This program is distributed in the hope that it will be useful, but
         WITHOUT ANY WARRANTY; without even the implied warranty of
         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -29,6 +29,7 @@ try:
 except ImportError:
     import numpy as xp
 import numpy as np
+
 
 def gaussian_window(
     x: xp.ndarray,
@@ -160,13 +161,19 @@ class ComplexMorletBank:
 
         # Normalize filter bank or not
         if normalize_wavelet is not None:
-            if normalize_wavelet == 'L1':
-                self.norm_factor = xp.abs(self.wavelets).sum(axis=1)[:, xp.newaxis]
-            elif normalize_wavelet == 'L2':
-                self.norm_factor = xp.sqrt((xp.abs(self.wavelets)**2).sum(axis=1))[:, xp.newaxis]
+            if normalize_wavelet == "L1":
+                self.norm_factor = xp.abs(self.wavelets).sum(axis=1)[
+                    :, xp.newaxis
+                ]
+            elif normalize_wavelet == "L2":
+                self.norm_factor = xp.sqrt(
+                    (xp.abs(self.wavelets) ** 2).sum(axis=1)
+                )[:, xp.newaxis]
             else:
-                AttributeError(f"'normalize_wavelet' has no attribute {normalize_wavelet}",
-                               "Supported are normalization by the 'L1'- and 'L2'-norm'.")
+                AttributeError(
+                    f"'normalize_wavelet' has no attribute {normalize_wavelet}",
+                    "Supported are normalization by the 'L1'- and 'L2'-norm'.",
+                )
 
             # Normalize filter bank
             self.wavelets /= self.norm_factor
@@ -176,7 +183,7 @@ class ComplexMorletBank:
 
         # Size attributes
         self.size = self.wavelets.shape[0]
-        
+
     def __repr__(self) -> str:
         """Representation of the filter bank."""
         return (
@@ -211,7 +218,7 @@ class ComplexMorletBank:
         scalogram = xp.fft.fftshift(xp.fft.ifft(convolved), axes=-1)
         scalogram = xp.abs(scalogram)
         if xp.__name__ == "cupy":
-            return xp.asnumpy(scalogram)
+            return xp.asnumpy(scalogram)  # type: ignore
         else:
             return scalogram
 
@@ -220,7 +227,7 @@ class ComplexMorletBank:
         """Wavelet bank symmetric time vector in seconds."""
         duration = self.bins / self.sampling_rate
         if xp.__name__ == "cupy":
-            return xp.asnumpy(xp.linspace(-0.5, 0.5, num=self.bins) * duration)
+            return xp.asnumpy(xp.linspace(-0.5, 0.5, num=self.bins) * duration)  # type: ignore
         else:
             return xp.linspace(-0.5, 0.5, num=self.bins) * duration
 
@@ -228,7 +235,7 @@ class ComplexMorletBank:
     def frequencies(self) -> np.ndarray:
         """Wavelet bank frequency vector in Hertz."""
         if xp.__name__ == "cupy":
-            return xp.asnumpy(xp.linspace(0, self.sampling_rate, self.bins))
+            return xp.asnumpy(xp.linspace(0, self.sampling_rate, self.bins))  # type: ignore
         else:
             return xp.linspace(0, self.sampling_rate, self.bins)
 
@@ -247,7 +254,7 @@ class ComplexMorletBank:
         """Wavelet bank ratios."""
         ratios = xp.linspace(self.octaves, 0.0, self.shape[0], endpoint=False)
         if xp.__name__ == "cupy":
-            return xp.asnumpy(-ratios[::-1])
+            return xp.asnumpy(-ratios[::-1])  # type: ignore
         else:
             return -ratios[::-1]
 
@@ -255,7 +262,7 @@ class ComplexMorletBank:
     def scales(self) -> np.ndarray:
         """Wavelet bank scaling factors."""
         if xp.__name__ == "cupy":
-            return xp.asnumpy(2**self.ratios)
+            return xp.asnumpy(2**self.ratios)  # type: ignore
         else:
             return 2**self.ratios
 
@@ -263,7 +270,7 @@ class ComplexMorletBank:
     def centers(self) -> np.ndarray:
         """Wavelet bank center frequencies."""
         if xp.__name__ == "cupy":
-            return xp.asnumpy(self.scales * self.nyquist)
+            return xp.asnumpy(self.scales * self.nyquist)  # type: ignore
         else:
             return self.scales * self.nyquist
 
@@ -271,6 +278,6 @@ class ComplexMorletBank:
     def widths(self) -> np.ndarray:
         """Wavelet bank temporal widths."""
         if xp.__name__ == "cupy":
-            return xp.asnumpy(self.quality / self.centers)
+            return xp.asnumpy(self.quality / self.centers)  # type: ignore
         else:
             return self.quality / self.centers

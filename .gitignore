@@ -141,4 +141,4 @@ cython_debug/
 **/example/
 
 # vs-code related
-.vscode/
+.vscode/uv.lock

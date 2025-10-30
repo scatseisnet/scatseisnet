@@ -109,30 +109,40 @@ class TestComplexMorletBank(unittest.TestCase):
 
     def test_transform_returns_real_values(self):
         """Test that transform returns real-valued (not complex) scalograms.
-        
+
         Regression test for issue #19: Scattering coefficients are complex when using cupy.
         The transform should return real values regardless of NumPy or CuPy backend.
         """
         bank = ComplexMorletBank(bins=128, octaves=4, resolution=2)
-        
+
         # Test with random signal
         segment = np.random.randn(128)
         scalogram = bank.transform(segment)
-        
+
         # Check that output is real (not complex)
-        self.assertFalse(np.iscomplexobj(scalogram), 
-                        "Scalogram should be real-valued, not complex")
-        self.assertEqual(scalogram.dtype.kind, 'f',
-                        f"Scalogram should have float dtype, got {scalogram.dtype}")
-        
+        self.assertFalse(
+            np.iscomplexobj(scalogram),
+            "Scalogram should be real-valued, not complex",
+        )
+        self.assertEqual(
+            scalogram.dtype.kind,
+            "f",
+            f"Scalogram should have float dtype, got {scalogram.dtype}",
+        )
+
         # Test with multiple channels
         segments = np.random.randn(10, 128)
         scalogram = bank.transform(segments)
-        
-        self.assertFalse(np.iscomplexobj(scalogram),
-                        "Multi-channel scalogram should be real-valued, not complex")
-        self.assertEqual(scalogram.dtype.kind, 'f',
-                        f"Multi-channel scalogram should have float dtype, got {scalogram.dtype}")
+
+        self.assertFalse(
+            np.iscomplexobj(scalogram),
+            "Multi-channel scalogram should be real-valued, not complex",
+        )
+        self.assertEqual(
+            scalogram.dtype.kind,
+            "f",
+            f"Multi-channel scalogram should have float dtype, got {scalogram.dtype}",
+        )
 
 
 if __name__ == "__main__":
