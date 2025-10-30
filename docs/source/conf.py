@@ -9,8 +9,15 @@ project = "scatseisnet"
 copyright = "2021, Léonard Seydoux and René Steinmann"
 author = "Léonard Seydoux and René Steinmann"
 
-release = "0.2.0"
-version = "0.2.0"
+# Get version from package metadata (reads from pyproject.toml)
+try:
+    from importlib.metadata import version as get_version
+    release = get_version("scatseisnet")
+    version = release
+except Exception:
+    # Fallback if package is not installed
+    release = "0.4.1"
+    version = "0.4.1"
 
 # General configuration
 exclude_patterns = [
