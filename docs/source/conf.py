@@ -64,8 +64,8 @@ html_static_path = [
 ]
 
 html_theme_options = {
-    "pygment_light_style": "tango",
-    "pygment_dark_style": "monokai",
+    "pygments_light_style": "tango",
+    "pygments_dark_style": "monokai",
     "github_url": "https://github.com//scatseisnet/scatseisnet",
 }
 
