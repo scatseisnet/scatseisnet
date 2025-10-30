@@ -63,13 +63,6 @@ html_static_path = [
     "_static",
 ]
 
-# Copy robots.txt to the build output only on RTD (blocks search engine indexing)
-# GitHub Pages won't include this file
-if os.environ.get("READTHEDOCS") == "True":
-    html_extra_path = [
-        "robots.txt",
-    ]
-
 html_theme_options = {
     "pygments_light_style": "tango",
     "pygments_dark_style": "monokai",
@@ -79,26 +72,6 @@ html_theme_options = {
 html_context = {
     "github_repo": "https://github.com/scatseisnet/scatseisnet",
 }
-
-# Add custom HTML for redirect on RTD
-if os.environ.get("READTHEDOCS") == "True":
-    html_theme_options.update({
-        "announcement": """
-        <div style="background-color: #fff3cd; border: 2px solid #ffc107; padding: 15px; text-align: center;">
-        📍 <strong>Documentation Has Moved!</strong><br>
-        This site is no longer maintained. Redirecting to 
-        <a href="https://scatseisnet.github.io/scatseisnet/" style="color: #0066cc;">
-        https://scatseisnet.github.io/scatseisnet/</a> in 3 seconds...
-        </div>
-        <script>
-        setTimeout(function() {
-            var currentPath = window.location.pathname.replace('/en/latest/', '/').replace('/en/stable/', '/');
-            window.location.href = 'https://scatseisnet.github.io/scatseisnet' + currentPath;
-        }, 3000);
-        </script>
-        <meta name="robots" content="noindex, nofollow">
-        """
-    })
 
 
 # Options for AutoAPI

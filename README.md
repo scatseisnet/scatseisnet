@@ -79,7 +79,7 @@ pip install scatseisnet[tutorials]
 
 ## Documentation
 
-Please check the [documentation](https://scatseisnet.github.io/scatseisnet/). You can find tutorials therein in the form of notebooks.
+Please check the [documentation](https://scatseisnet.readthedocs.io/). You can find tutorials therein in the form of notebooks.
 
 ## Testing
 

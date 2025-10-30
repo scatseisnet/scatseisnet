@@ -45,7 +45,7 @@ tutorials = [
 ]
 
 [project.urls]
-Documentation = "https://scatseisnet.github.io/scatseisnet/"
+Documentation = "https://scatseisnet.readthedocs.io/"
 Source = "https://github.com/scatseisnet/scatseisnet"
 
 [tool.flit.sdist]
