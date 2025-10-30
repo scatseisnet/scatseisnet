@@ -1,0 +1,5 @@
+# Disallow all robots from indexing this Read the Docs site
+# Documentation has moved to: https://scatseisnet.github.io/scatseisnet/
+
+User-agent: *
+Disallow: /

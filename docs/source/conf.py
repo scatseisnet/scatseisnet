@@ -63,6 +63,13 @@ html_static_path = [
     "_static",
 ]
 
+# Copy robots.txt to the build output only on RTD (blocks search engine indexing)
+# GitHub Pages won't include this file
+if os.environ.get("READTHEDOCS") == "True":
+    html_extra_path = [
+        "robots.txt",
+    ]
+
 html_theme_options = {
     "pygments_light_style": "tango",
     "pygments_dark_style": "monokai",
