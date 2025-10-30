@@ -1,5 +1,3 @@
-Welcome to **scatseisnet**'s documentation!
-===========================================
 
 .. image:: _static/logo_scatseisnet_anim.png
    :width: 0
@@ -7,14 +5,17 @@ Welcome to **scatseisnet**'s documentation!
 
 .. raw:: html
 
-   <p align="center">
+   
+   <div align="center">
       <img src="_images/logo_scatseisnet_anim.png" width=200px
       style="background-color: transparent;"/>
-   </p>  
 
-**Scatseisnet**
-      
-Scattering network for seismic data analysis.
+   <p>
+      <strong>Scatseisnet</strong>
+      <br>
+      Scattering network for seismic data analysis.
+   </p>
+   </div>  
 
 
 |
