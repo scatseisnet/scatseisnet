@@ -1,0 +1,12 @@
+# Test Requirements for ScatSeisNet
+
+# Testing frameworks
+pytest>=7.0.0
+pytest-cov>=4.0.0
+coverage>=7.0.0
+
+# Optional: for parallel test execution
+pytest-xdist>=3.0.0
+
+# Optional: for testing across Python versions locally
+tox>=4.0.0
