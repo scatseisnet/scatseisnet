@@ -8,8 +8,8 @@ sphinx:
   configuration: docs/source/conf.py
   fail_on_warning: false
 
-# Build all formats (PDF, ePub, HTMLZip)
-formats: all
+# Build HTML format only
+formats: []
 
 # Set the OS and tools
 build:
