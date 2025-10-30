@@ -48,20 +48,34 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 The package is available from the PyPI repository. To install using pip, execute the following line:
 
-### CPU-only installation
+### Basic installation (CPU only)
 
 ```bash
 pip install scatseisnet
 ```
 
-### GPU usage
+### GPU acceleration (optional)
 
-If you want to use a GPU, you need to install the package with the package CuPy.
-The code will try to find it and use it if it is installed. You can install it
-with the following command.
+For GPU acceleration with CUDA, install with the GPU extras:
+
+```bash
+pip install scatseisnet[gpu]
+```
+
+Or install CuPy separately:
 
 ```bash
 pip install cupy
+```
+
+The package will automatically detect and use CuPy if available, providing significant speedup for large-scale computations.
+
+### Tutorials and examples
+
+To run the tutorial notebooks, install with tutorial dependencies:
+
+```bash
+pip install scatseisnet[tutorials]
 ```
 
 ## Documentation
