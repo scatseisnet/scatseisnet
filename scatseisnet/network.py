@@ -22,7 +22,7 @@ output bins, etc.
         under the terms of the GNU General Public License as published by the
         Free Software Foundation, either version 3 of the License, or (at your
         option) any later version.
-        
+
         This program is distributed in the hope that it will be useful, but
         WITHOUT ANY WARRANTY; without even the implied warranty of
         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -65,6 +65,15 @@ class ScatteringNetwork:
         Input data sampling rate in Hertz. This is useful to keep track of
         physical frequencies in the filterbanks properties. The default value is
         1.0 (reduced frequency).
+
+    Attributes
+    ----------
+    banks: :class:`list` of :class:`~.ComplexMorletBank`
+        Filter banks of the scattering network. The length of this list is equal
+        to the number of layers of the scattering network. Each filter bank is
+        an instance of the :class:`~.ComplexMorletBank` class.
+    sampling_rate: float
+        Input data sampling rate in Hertz.
     """
 
     def __init__(
