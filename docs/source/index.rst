@@ -1,14 +1,14 @@
 Welcome to **scatseisnet**'s documentation!
 ===========================================
 
-.. image:: _static/logo_scatseisnet.png
+.. image:: _static/logo_scatseisnet_anim.png
    :width: 0
    :align: center
 
 .. raw:: html
 
    <p align="center">
-      <img src="_images/logo_scatseisnet.png" width=250px
+      <img src="_images/logo_scatseisnet_anim.png" width=200px
       style="background-color: transparent;"/>
    </p>
 
