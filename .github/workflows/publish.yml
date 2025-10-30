@@ -46,10 +46,6 @@ jobs:
       - build
     runs-on: ubuntu-latest
 
-    environment:
-      name: pypi
-      url: https://pypi.org/project/scatseisnet/
-
     steps:
       - name: Download all the dists
         uses: actions/download-artifact@v4
@@ -68,10 +64,6 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/project/scatseisnet/
 
     steps:
       - name: Download all the dists
