@@ -50,9 +50,6 @@ jobs:
       name: pypi
       url: https://pypi.org/project/scatseisnet/
 
-    permissions:
-      id-token: write
-
     steps:
       - name: Download all the dists
         uses: actions/download-artifact@v4
@@ -62,6 +59,8 @@ jobs:
 
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
 
   publish-to-testpypi:
     name: Publish to TestPyPI
@@ -74,9 +73,6 @@ jobs:
       name: testpypi
       url: https://test.pypi.org/project/scatseisnet/
 
-    permissions:
-      id-token: write
-
     steps:
       - name: Download all the dists
         uses: actions/download-artifact@v4
@@ -88,3 +84,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
