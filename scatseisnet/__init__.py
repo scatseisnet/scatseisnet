@@ -3,7 +3,7 @@
 
 This package implements the deep scattering transform clustering on segmented
 time series. The deep scattering transform is a deep learning architecture
-that can be used to extract features from time series. 
+that can be used to extract features from time series.
 
 .. dropdown:: Terms of use
 
@@ -15,7 +15,7 @@ that can be used to extract features from time series.
         under the terms of the GNU General Public License as published by the
         Free Software Foundation, either version 3 of the License, or (at your
         option) any later version.
-        
+
         This program is distributed in the hope that it will be useful, but
         WITHOUT ANY WARRANTY; without even the implied warranty of
         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -36,6 +36,11 @@ from . import wavelet
 from . import operation
 from . import network
 from .network import ScatteringNetwork
-from pkg_resources import get_distribution
 
-__version__ = get_distribution("scatseisnet").version
+try:
+    from importlib.metadata import version
+except ImportError:
+    # Python < 3.8
+    from importlib_metadata import version  # type: ignore
+
+__version__ = version("scatseisnet")

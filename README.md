@@ -65,6 +65,23 @@ pip install cupy
 
 Please check the [documentation](https://scatseisnet.readthedocs.io/en/latest/). You can find tutorials thererin in the form of notebooks.
 
+## Testing
+
+The package includes a comprehensive test suite with 51 tests covering all major functionality. Tests are compatible with Python 3.8+ including Python 3.13.
+
+```bash
+# Run tests with pytest
+pytest tests/ -v
+
+# Run tests with unittest (no additional dependencies)
+python -m unittest discover tests/ -v
+
+# With coverage report
+pytest tests/ --cov=scatseisnet --cov-report=html
+```
+
+See `tests/README.md` for detailed testing documentation and CI/CD information.
+
 ## Citation
 
 ```
