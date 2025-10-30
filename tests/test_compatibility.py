@@ -15,7 +15,7 @@ class TestPythonCompatibility(unittest.TestCase):
 
     def test_numpy_available(self):
         """Test that NumPy is available."""
-        self.assertTrue(hasattr(np, '__version__'))
+        self.assertTrue(hasattr(np, "__version__"))
         self.assertIsInstance(np.__version__, str)
 
     def test_numpy_basic_operations(self):
@@ -28,12 +28,14 @@ class TestPythonCompatibility(unittest.TestCase):
     def test_scipy_available(self):
         """Test that SciPy is available."""
         import scipy
-        self.assertTrue(hasattr(scipy, '__version__'))
+
+        self.assertTrue(hasattr(scipy, "__version__"))
         self.assertIsInstance(scipy.__version__, str)
 
     def test_scipy_signal_windows(self):
         """Test SciPy signal windows module."""
         from scipy.signal.windows import tukey
+
         window = tukey(128, alpha=0.5)
         self.assertEqual(len(window), 128)
         self.assertTrue(np.all(window >= 0))
@@ -66,14 +68,16 @@ class TestImportlibMetadata(unittest.TestCase):
         """Test that importlib.metadata can be imported."""
         if sys.version_info >= (3, 8):
             from importlib.metadata import version
+
             self.assertIsNotNone(version)
 
     def test_version_function(self):
         """Test version function works for installed packages."""
         if sys.version_info >= (3, 8):
             from importlib.metadata import version
+
             # Test with numpy (always installed)
-            numpy_version = version('numpy')
+            numpy_version = version("numpy")
             self.assertIsInstance(numpy_version, str)
             self.assertGreater(len(numpy_version), 0)
 
@@ -81,8 +85,9 @@ class TestImportlibMetadata(unittest.TestCase):
         """Test that package metadata can be retrieved."""
         if sys.version_info >= (3, 8):
             from importlib.metadata import version, PackageNotFoundError
+
             try:
-                pkg_version = version('scatseisnet')
+                pkg_version = version("scatseisnet")
                 self.assertIsInstance(pkg_version, str)
             except PackageNotFoundError:
                 # Package might not be installed in test environment
@@ -101,7 +106,7 @@ class TestDataTypes(unittest.TestCase):
     def test_complex_types(self):
         """Test different complex types."""
         for dtype in [np.complex64, np.complex128]:
-            arr = np.array([1+2j, 3+4j], dtype=dtype)
+            arr = np.array([1 + 2j, 3 + 4j], dtype=dtype)
             self.assertEqual(arr.dtype, dtype)
 
     def test_integer_types(self):
@@ -118,5 +123,5 @@ class TestDataTypes(unittest.TestCase):
         self.assertTrue(np.all(arr_int == [1, 2, 3]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

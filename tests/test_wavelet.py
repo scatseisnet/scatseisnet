@@ -12,7 +12,7 @@ class TestComplexMorletWindow(unittest.TestCase):
         """Test basic complex Morlet window generation."""
         x = np.linspace(-1, 1, 128)
         window = complex_morlet(x, width=0.5, center=0.0)
-        
+
         self.assertEqual(len(window), len(x))
         self.assertTrue(np.iscomplexobj(window))
 
@@ -21,7 +21,7 @@ class TestComplexMorletWindow(unittest.TestCase):
         x = np.linspace(-1, 1, 128)
         widths = np.array([0.3, 0.5, 0.7])
         windows = complex_morlet(x, width=widths, center=0.0)
-        
+
         self.assertEqual(windows.shape, (len(widths), len(x)))
         self.assertTrue(np.iscomplexobj(windows))
 
@@ -29,7 +29,7 @@ class TestComplexMorletWindow(unittest.TestCase):
         """Test that Morlet window is symmetric."""
         x = np.linspace(-1, 1, 128)
         window = complex_morlet(x, width=0.5, center=0.0)
-        
+
         # The magnitude should be symmetric
         magnitude = np.abs(window)
         self.assertTrue(np.allclose(magnitude, magnitude[::-1], rtol=1e-10))
@@ -39,7 +39,7 @@ class TestComplexMorletWindow(unittest.TestCase):
         x = np.linspace(-1, 1, 128)
         window1 = complex_morlet(x, width=0.5, center=0.1)
         window2 = complex_morlet(x, width=0.5, center=0.2)
-        
+
         # Different centers should give different wavelets
         self.assertFalse(np.allclose(window1, window2))
 
@@ -56,44 +56,46 @@ class TestComplexMorletBank(unittest.TestCase):
     def test_bank_attributes(self):
         """Test that filter bank has required attributes."""
         bank = ComplexMorletBank(bins=128, octaves=4, resolution=2)
-        
-        self.assertTrue(hasattr(bank, 'bins'))
-        self.assertTrue(hasattr(bank, 'octaves'))
-        self.assertTrue(hasattr(bank, 'resolution'))
-        self.assertTrue(hasattr(bank, 'quality'))
-        self.assertTrue(hasattr(bank, 'sampling_rate'))
+
+        self.assertTrue(hasattr(bank, "bins"))
+        self.assertTrue(hasattr(bank, "octaves"))
+        self.assertTrue(hasattr(bank, "resolution"))
+        self.assertTrue(hasattr(bank, "quality"))
+        self.assertTrue(hasattr(bank, "sampling_rate"))
 
     def test_bank_filter_count(self):
         """Test that filter bank has correct number of filters."""
         octaves = 4
         resolution = 2
-        bank = ComplexMorletBank(bins=128, octaves=octaves, resolution=resolution)
-        
+        bank = ComplexMorletBank(
+            bins=128, octaves=octaves, resolution=resolution
+        )
+
         # Number of filters should be octaves * resolution
         expected_filters = octaves * resolution
-        self.assertTrue(hasattr(bank, 'wavelets'))
+        self.assertTrue(hasattr(bank, "wavelets"))
         self.assertEqual(len(bank), expected_filters)
         self.assertEqual(bank.wavelets.shape[0], expected_filters)
 
     def test_bank_different_parameters(self):
         """Test bank creation with different parameters."""
         params = [
-            {'bins': 64, 'octaves': 3, 'resolution': 1},
-            {'bins': 128, 'octaves': 6, 'resolution': 2},
-            {'bins': 256, 'octaves': 8, 'resolution': 4},
+            {"bins": 64, "octaves": 3, "resolution": 1},
+            {"bins": 128, "octaves": 6, "resolution": 2},
+            {"bins": 256, "octaves": 8, "resolution": 4},
         ]
-        
+
         for param in params:
             bank = ComplexMorletBank(**param)
-            self.assertEqual(bank.bins, param['bins'])
-            self.assertEqual(bank.octaves, param['octaves'])
-            self.assertEqual(bank.resolution, param['resolution'])
+            self.assertEqual(bank.bins, param["bins"])
+            self.assertEqual(bank.octaves, param["octaves"])
+            self.assertEqual(bank.resolution, param["resolution"])
 
     def test_bank_sampling_rate(self):
         """Test bank with different sampling rates."""
         bank1 = ComplexMorletBank(bins=128, octaves=4, sampling_rate=1.0)
         bank2 = ComplexMorletBank(bins=128, octaves=4, sampling_rate=100.0)
-        
+
         self.assertEqual(bank1.sampling_rate, 1.0)
         self.assertEqual(bank2.sampling_rate, 100.0)
 
@@ -101,10 +103,10 @@ class TestComplexMorletBank(unittest.TestCase):
         """Test bank with different quality factors."""
         bank1 = ComplexMorletBank(bins=128, octaves=4, quality=4.0)
         bank2 = ComplexMorletBank(bins=128, octaves=4, quality=8.0)
-        
+
         self.assertEqual(bank1.quality, 4.0)
         self.assertEqual(bank2.quality, 8.0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
