@@ -2,8 +2,7 @@
 
 <div align=center>
 
-<!-- <img src=docs/source/_static/logo_scatseisnet.png width=250px/> -->
-<img src=docs/source/logo/logo_scatseisnet_anim.png width=200/>
+<img src="https://github.com/scatseisnet/scatseisnet/blob/main/docs/source/logo/logo_scatseisnet_anim.png?raw=true" width=200/>
 
 **Scatseisnet**\
 Scattering network for seismic data analysis.

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to publish (leave empty to use pyproject.toml version)'
+        description: "Version to publish (leave empty to use pyproject.toml version)"
         required: false
 
 permissions:
