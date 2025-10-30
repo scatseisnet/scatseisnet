@@ -80,41 +80,25 @@ html_context = {
     "github_repo": "https://github.com/scatseisnet/scatseisnet",
 }
 
-# Add redirect for RTD using Sphinx setup function
-def setup(app):
-    if os.environ.get("READTHEDOCS") == "True":
-        # Add meta tags to block search engines
-        app.add_css_file(None, content="""
-            body::before {
-                content: "📍 Documentation Has Moved! This site is no longer maintained. You will be redirected to https://scatseisnet.github.io/scatseisnet/ in 3 seconds.";
-                display: block;
-                background-color: #fff3cd;
-                border: 2px solid #ffc107;
-                padding: 20px;
-                margin: 20px;
-                text-align: center;
-                font-family: Arial, sans-serif;
-                color: #856404;
-                font-size: 16px;
-                font-weight: bold;
-            }
-        """)
-        # Add redirect script
-        redirect_script = """
-        document.addEventListener('DOMContentLoaded', function() {
-            var meta = document.createElement('meta');
-            meta.name = 'robots';
-            meta.content = 'noindex, nofollow';
-            document.head.appendChild(meta);
-            
-            setTimeout(function() {
-                var currentPath = window.location.pathname.replace('/en/latest/', '/').replace('/en/stable/', '/');
-                var newUrl = 'https://scatseisnet.github.io/scatseisnet' + currentPath;
-                window.location.href = newUrl;
-            }, 3000);
-        });
+# Add custom HTML for redirect on RTD
+if os.environ.get("READTHEDOCS") == "True":
+    html_theme_options.update({
+        "announcement": """
+        <div style="background-color: #fff3cd; border: 2px solid #ffc107; padding: 15px; text-align: center;">
+        📍 <strong>Documentation Has Moved!</strong><br>
+        This site is no longer maintained. Redirecting to 
+        <a href="https://scatseisnet.github.io/scatseisnet/" style="color: #0066cc;">
+        https://scatseisnet.github.io/scatseisnet/</a> in 3 seconds...
+        </div>
+        <script>
+        setTimeout(function() {
+            var currentPath = window.location.pathname.replace('/en/latest/', '/').replace('/en/stable/', '/');
+            window.location.href = 'https://scatseisnet.github.io/scatseisnet' + currentPath;
+        }, 3000);
+        </script>
+        <meta name="robots" content="noindex, nofollow">
         """
-        app.add_js_file(None, body=redirect_script)
+    })
 
 
 # Options for AutoAPI
