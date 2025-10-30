@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Scattering network for seismology."
 name = "scatseisnet"
-version = "0.3.0"
+version = "0.4.0"
 readme = "README.md"
 classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
