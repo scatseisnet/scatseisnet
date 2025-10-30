@@ -65,15 +65,6 @@ class ScatteringNetwork:
         Input data sampling rate in Hertz. This is useful to keep track of
         physical frequencies in the filterbanks properties. The default value is
         1.0 (reduced frequency).
-
-    Attributes
-    ----------
-    banks: :class:`list` of :class:`~.ComplexMorletBank`
-        Filter banks of the scattering network. The length of this list is equal
-        to the number of layers of the scattering network. Each filter bank is
-        an instance of the :class:`~.ComplexMorletBank` class.
-    sampling_rate: float
-        Input data sampling rate in Hertz.
     """
 
     def __init__(
