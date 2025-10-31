@@ -1,0 +1,19 @@
+/* Custom styling for code blocks */
+
+/* Reduce font size for code blocks */
+div.highlight pre,
+pre.literal-block,
+.highlight pre {
+    font-size: 0.85em;
+}
+
+/* Reduce font size for inline code */
+code.literal {
+    font-size: 0.9em;
+}
+
+/* Reduce font size for notebook code cells */
+div.nbinput div.input_area pre,
+div.nboutput div.output_area pre {
+    font-size: 0.85em;
+}

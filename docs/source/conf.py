@@ -12,6 +12,7 @@ author = "Léonard Seydoux and René Steinmann"
 # Get version from package metadata (reads from pyproject.toml)
 try:
     from importlib.metadata import version as get_version
+
     release = get_version("scatseisnet")
     version = release
 except Exception:
@@ -70,9 +71,13 @@ html_static_path = [
     "_static",
 ]
 
+html_css_files = [
+    "custom.css",
+]
+
 html_theme_options = {
-    "pygments_light_style": "tango",
-    "pygments_dark_style": "monokai",
+    "pygments_light_style": "github-light",
+    "pygments_dark_style": "github-dark",
     "github_url": "https://github.com//scatseisnet/scatseisnet",
 }
 
